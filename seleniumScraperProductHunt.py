@@ -131,25 +131,7 @@ with open(cookies_file, 'r') as f:
     cookies = f.readlines()
 
 # Parse and inject cookies into the session
-for cookie in cookies:
-    if not cookie.startswith("#"):  # Skip comment lines
-        parts = cookie.strip().split('\t')
-        if len(parts) >= 7:  # Ensure there are enough elements
-            cookie_dict = {
-                'domain': parts[0],
-                'secure': parts[1] == 'TRUE',
-                'path': parts[2],
-                'httpOnly': parts[3] == 'TRUE',
-                'expiry': int(parts[4]) * 1000,  # Convert to milliseconds
-                'name': parts[5],
-                'value': parts[6]
-            }
-            driver.add_cookie(cookie_dict)
-        else:
-            print("Skipping malformed cookie:", cookie.strip())
 
-# Refresh the page to apply the cookies
-driver.refresh()
 
 
 # Navigate to the page
@@ -171,7 +153,26 @@ def scrollDown():
 
 day = 1
 while True:
-    time.sleep(3)
+    for cookie in cookies:
+        if not cookie.startswith("#"):  # Skip comment lines
+            parts = cookie.strip().split('\t')
+            if len(parts) >= 7:  # Ensure there are enough elements
+                cookie_dict = {
+                    'domain': parts[0],
+                    'secure': parts[1] == 'TRUE',
+                    'path': parts[2],
+                    'httpOnly': parts[3] == 'TRUE',
+                    'expiry': int(parts[4]) * 1000,  # Convert to milliseconds
+                    'name': parts[5],
+                    'value': parts[6]
+                }
+                driver.add_cookie(cookie_dict)
+            else:
+                print("Skipping malformed cookie:", cookie.strip())
+
+    # Refresh the page to apply the cookies
+    driver.refresh()
+    time.sleep(5)
     driver.get('https://www.producthunt.com/leaderboard/daily/2024/5/'+str(day)+'/all')
     time.sleep(3)
     
