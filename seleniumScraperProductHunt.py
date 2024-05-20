@@ -31,7 +31,7 @@ def initScrapper():
     cred_path = os.path.join(base_dir, 'credentials', 'producthuntscraper-firebase-adminsdk-o82so-12e0513927.json')
     cred = credentials.Certificate(cred_path)
     app = firebase_admin.initialize_app(cred, {
-        'databaseURL': 'https://your-database-url.firebaseio.com'
+        'databaseURL': 'https://producthuntscraper-default-rtdb.europe-west1.firebasedatabase.app/'
     })
     return app
 
@@ -45,13 +45,13 @@ def closeConnectionScrapper(app):
 
 def getTheData(projectLink, founderLinks):    
     # Define the URL for running the actor synchronously
-    url = "https://api.apify.com/v2/acts/lhotanova~product-hunt-profile-scraper/run-sync-get-dataset-items?token=apify_api_0ivyOVbeaMX1Eza81T2cQWBnEP26hb3iJWGh"
+    url = "https://api.apify.com/v2/acts/lhotanova~product-hunt-profile-scraper/run-sync-get-dataset-items?token=apify_api_idXFjAfQnn8AQcPIN1cWCAowPc39EJ0do8YL"
 
     # Define the input data (profile URLs)
     
     input_data = {
-    "profileUrls": founderLinks
-}
+    "profileUrls": founderLinks}
+
     response = requests.post(url, json=input_data)
     # Make a POST request to run the actor synchronously with input data
     # Extract the dataset items from the response
@@ -110,7 +110,7 @@ DRIVER_PATH = "D:\chromedriver.exe"
 
 # Set Chrome options
 chrome_options = Options()
-#chrome_options.add_argument("--headless")  # Optional: run in headless mode
+chrome_options.add_argument("--headless")  # Optional: run in headless mode
 
 # Initialize Chrome WebDriver
 service = Service(DRIVER_PATH)
