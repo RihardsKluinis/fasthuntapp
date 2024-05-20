@@ -152,18 +152,12 @@ for cookie in cookies:
 driver.refresh()
 
 
-def is_visible(element):
-    return element.is_displayed() and element.is_enabled()
-
-# Function to scroll down to the bottom of the page
-
 # Navigate to the page
-
 
 # Pause for initial loading
 time.sleep(5)
 
-
+driver.set_window_size(1920, 1080)
 def scrollDown():
     window_height = driver.execute_script("return window.innerHeight;")
     
