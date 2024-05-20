@@ -261,7 +261,7 @@ while True:
         dateOfPosting = str(day)+"/05/2024"
         if haveWeFoundSomeone == True and len(founderLinks)>0:
             app = initScrapper()
-            getTheData(projectLink, founderLinks)
+            getTheData(projectLink, founderLinks, dateOfPosting)
             closeConnectionScrapper(app)
         time.sleep(1)
         # except:
