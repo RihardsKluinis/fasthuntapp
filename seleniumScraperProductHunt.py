@@ -79,7 +79,7 @@ def getTheData(projectLink, founderLinks):
             if profile_id in project_ids[project_name]:
                 print(f"Profile {profile_id} already exists under project {project_name}, skipping...")
                 continue
-
+        print("Project Name is", project_name)
         # Create a new child node under the main node for the project if it doesn't exist
         if not main_ref.child(project_name).get():
             project_ref = main_ref.child(project_name)
