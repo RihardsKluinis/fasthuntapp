@@ -106,15 +106,24 @@ def getTheData(projectLink, founderLinks):
 
 
 # Set the path to the Chrome WebDriver executable
-DRIVER_PATH = "D:\chromedriver.exe"
+
 
 # Set Chrome options
 chrome_options = Options()
 chrome_options.add_argument("--headless")  # Optional: run in headless mode
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-sh-usage")
 
-# Initialize Chrome WebDriver
-service = Service(DRIVER_PATH)
+
+chrome_path = "/app/.chrome-for-testing/chrome-linux64/chrome"
+chromedriver_path = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
+
+chrome_options.binary_location = chrome_path
+
+# Initialize Chrome WebDriver with the ChromeDriver path and options
+service = Service(chromedriver_path)
 driver = webdriver.Chrome(service=service, options=chrome_options)
+# Initialize Chrome WebDriver
 
 # Open Google
 driver.get('https://www.producthunt.com')
@@ -195,8 +204,8 @@ while True:
                 attempt += 1
 
                 if attempt < 3:
-                    print(f"Click intercepted. Retrying in 5 seconds (attempt {attempt}/{3})...")
-                    time.sleep(5)  # Wait for 5 seconds before retrying
+                    print(f"Click intercepted. Retrying in 2 seconds (attempt {attempt}/{3})...")
+                    time.sleep(2)  # Wait for 5 seconds before retrying
                 else:
                     haveWeFoundAProduct= False
                     print("Maximum retry attempts reached for this element. Continuing with next element...")
@@ -250,7 +259,7 @@ while True:
             app = initScrapper()
             getTheData(projectLink, founderLinks)
             closeConnectionScrapper(app)
-        time.sleep(2)
+        time.sleep(1)
         
             
         
