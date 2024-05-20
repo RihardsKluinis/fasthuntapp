@@ -183,89 +183,90 @@ while True:
     day = day + 1
     first = 1
     for i in range(1, 100):  # Assuming there are 84 elements on the page
-        try:
-            print("We're at ", i)
-            if first == 1:
-                time.sleep(5)
-                first = 2
-            xpath = '//*[@id="__next"]/div/main/div/div[2]/div[' + str(i) + ']/div/div[1]/a[1]/div'
+        #try:
+        print("We're at ", i)
+        if first == 1:
+            time.sleep(5)
+            first = 2
+        xpath = '//*[@id="__next"]/div/main/div/div[2]/div[' + str(i) + ']/div/div[1]/a[1]/div'
+    
+        attempt = 0
+        # Find the element of project
+        haveWeFoundAProduct = True
+        while attempt < 3:
+            try:
+                # Wait until the project element is clickable
+                WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, xpath)))
+                element = driver.find_element(By.XPATH, xpath)
+                # Click on the element
+                element.click()
+                break  # Break the loop if click succeeds
+
+            except :
+                # Increment the attempt counter
+                attempt += 1
+
+                if attempt < 3:
+                    print(f"Click intercepted. Retrying in 2 seconds (attempt {attempt}/{3})...")
+                    time.sleep(2)  # Wait for 5 seconds before retrying
+                else:
+                    haveWeFoundAProduct= False
+                    print("Maximum retry attempts reached for this element. Continuing with next element...")
+                    continue
+        if haveWeFoundAProduct == False:
+            continue
+        # Wait a little bit for the page to load
+        time.sleep(2)
+        potentialLinks = []
+        projectLink = ""
+        haveWeFoundSomeone = False
         
-            attempt = 0
-            # Find the element of project
-            haveWeFoundAProduct = True
-            while attempt < 3:
-                try:
-                    # Wait until the project element is clickable
-                    WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, xpath)))
-                    element = driver.find_element(By.XPATH, xpath)
-                    # Click on the element
-                    element.click()
-                    break  # Break the loop if click succeeds
+        for j in range(3, 60):  #Checking up to 57 founders for each project
+            next_xpath = '//*[@id="about"]/div[3]/div[' + str(j) + ']'
 
-                except :
-                    # Increment the attempt counter
-                    attempt += 1
+            try:
+                print(1)
+                WebDriverWait(driver, 6).until(EC.element_to_be_clickable((By.XPATH, next_xpath)))
+                print(2)
+                next_element = driver.find_element(By.XPATH, next_xpath)
+                print(3)
 
-                    if attempt < 3:
-                        print(f"Click intercepted. Retrying in 2 seconds (attempt {attempt}/{3})...")
-                        time.sleep(2)  # Wait for 5 seconds before retrying
-                    else:
-                        haveWeFoundAProduct= False
-                        print("Maximum retry attempts reached for this element. Continuing with next element...")
-                        continue
-            if haveWeFoundAProduct == False:
-                continue
-            # Wait a little bit for the page to load
-            time.sleep(2)
-            potentialLinks = []
-            projectLink = ""
-            haveWeFoundSomeone = False
-            
-            for j in range(3, 60):  #Checking up to 57 founders for each project
-                next_xpath = '//*[@id="about"]/div[3]/div[' + str(j) + ']'
-
-                try:
-                    print(1)
-                    WebDriverWait(driver, 6).until(EC.element_to_be_clickable((By.XPATH, next_xpath)))
-                    print(2)
-                    next_element = driver.find_element(By.XPATH, next_xpath)
-                    print(3)
-
-                    next_a_element = next_element.find_element(By.TAG_NAME, 'a')
-                    nextFounderLink = next_a_element.get_attribute("href")
-                    potentialLinks.append(nextFounderLink)
-                    projectLink = driver.current_url
-                    time.sleep(1)
-                    print(4)
-                    haveWeFoundSomeone = True
-                    #Now were in the founders profile
-                except:
-                    print(f"that's it for now")
-                    backButton = driver.find_element(By.XPATH, '//*[@id="__next"]/div[1]/a')
-                    backButton.click()
-                    break
-                
+                next_a_element = next_element.find_element(By.TAG_NAME, 'a')
+                nextFounderLink = next_a_element.get_attribute("href")
+                potentialLinks.append(nextFounderLink)
+                projectLink = driver.current_url
                 time.sleep(1)
-            scrollDown()
-
-                
-                    
+                print(4)
+                haveWeFoundSomeone = True
+                #Now were in the founders profile
+            except:
+                print(f"that's it for now")
+                backButton = driver.find_element(By.XPATH, '//*[@id="__next"]/div[1]/a')
+                backButton.click()
+                break
+            
+            time.sleep(1)
+        scrollDown()
 
             
-            founderLinks = []
-            # Wait for the page to load after navigating back
-            for link in potentialLinks:
-                if "@" in str(link):
-                    print(link)
-                    founderLinks.append(str(link))
-            dateOfPosting = str(day)+"/05/2024"
-            if haveWeFoundSomeone == True and len(founderLinks)>0:
-                app = initScrapper()
-                getTheData(projectLink, founderLinks)
-                closeConnectionScrapper(app)
-            time.sleep(1)
-        except:
-            print("We've seen everything today")
+                
+
+        
+        founderLinks = []
+        # Wait for the page to load after navigating back
+        for link in potentialLinks:
+            if "@" in str(link):
+                print(link)
+                founderLinks.append(str(link))
+        dateOfPosting = str(day)+"/05/2024"
+        if haveWeFoundSomeone == True and len(founderLinks)>0:
+            app = initScrapper()
+            getTheData(projectLink, founderLinks)
+            closeConnectionScrapper(app)
+        time.sleep(1)
+        # except:
+        #     print("We've seen everything today")
+        #     break
         
             
         
