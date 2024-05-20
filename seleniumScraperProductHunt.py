@@ -178,7 +178,7 @@ def scrollDown():
 day = 1
 while True:
     time.sleep(3)
-    driver.get('https://www.producthunt.com/leaderboard/daily/2024/5/'+day+'/all')
+    driver.get('https://www.producthunt.com/leaderboard/daily/2024/5/'+str(day)+'/all')
     time.sleep(3)
     day = day + 1
     first = 1
