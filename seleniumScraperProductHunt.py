@@ -187,6 +187,7 @@ while True:
             attempt = 0
             # Find the element of project
             haveWeFoundAProduct = True
+            time.sleep(2)
             while attempt < 3:
                 try:
                     # Wait until the project element is clickable
