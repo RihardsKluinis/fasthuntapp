@@ -176,18 +176,18 @@ def scrollDown():
 
 
 time.sleep(5)
-for i in range(1, 200):
-    xpath = '//*[@id="__next"]/div/main/div/div[2]/div[' + str(i) + ']/div/div[1]/a[1]/div'
-    try:
-        WebDriverWait(driver, 4).until(EC.element_to_be_clickable((By.XPATH, xpath)))
-        print(i)
-    except:
-        print("bad element")
-    height = driver.execute_script("return document.body.scrollHeight")
-    print(height)
+# for i in range(1, 200):
+#     xpath = '//*[@id="__next"]/div/main/div/div[2]/div[' + str(i) + ']/div/div[1]/a[1]/div'
+#     try:
+#         WebDriverWait(driver, 4).until(EC.element_to_be_clickable((By.XPATH, xpath)))
+#         print(i)
+#     except:
+#         print("bad element")
+#     height = driver.execute_script("return document.body.scrollHeight")
+#     print(height)
 
-    scrollDown()
-    time.sleep(0.2)
+#     scrollDown()
+#     time.sleep(0.2)
 
 day = 1
 while True:
