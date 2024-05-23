@@ -1,1 +1,1 @@
-web: python seleniumScraperProductHunt.py
+worker: xvfb-run -a python seleniumScraperProductHunt.py
