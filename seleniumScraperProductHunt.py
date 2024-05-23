@@ -190,14 +190,19 @@ while True:
             # Find the element of project
             haveWeFoundAProduct = True
             time.sleep(2)
+            print(1)
+            print(driver.execute_script("return document.body.scrollHeight"))
             while attempt < 3:
                 try:
                     # Wait until the project element is clickable
+                    print(2)
                     WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, xpath)))
+                    print(3)
                     scroll_to_xpath(xpath)
                     element = driver.find_element(By.XPATH, xpath)
                     # Click on the element
                     element.click()
+                    print(4)
                     break  # Break the loop if click succeeds
 
                 except :
@@ -223,11 +228,11 @@ while True:
                 next_xpath = '//*[@id="about"]/div[3]/div[' + str(j) + ']'
 
                 try:
-                    print(1)
+                    
                     WebDriverWait(driver, 6).until(EC.element_to_be_clickable((By.XPATH, next_xpath)))
-                    print(2)
+                    
                     next_element = driver.find_element(By.XPATH, next_xpath)
-                    print(3)
+                    
 
                     next_a_element = next_element.find_element(By.TAG_NAME, 'a')
                     nextFounderLink = next_a_element.get_attribute("href")
