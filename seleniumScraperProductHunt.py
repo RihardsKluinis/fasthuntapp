@@ -130,7 +130,6 @@ cookies_file = os.path.join(base_dir, 'credentials', 'producthunt_cookies.txt')
 with open(cookies_file, 'r') as f:
     cookies = f.readlines()
 
-
 # Parse and inject cookies into the session
 for cookie in cookies:
     if not cookie.startswith("#"):  # Skip comment lines
