@@ -11,7 +11,7 @@ import time
 
 
 
-
+from pyvirtualdisplay import Display
 
 
 
@@ -156,6 +156,9 @@ driver.refresh()
 
 # Pause for initial loading
 time.sleep(5)
+
+display = Display(visible=0, size=(1920, 1080))
+display.start()
 
 driver.set_window_size(1920, 1080)
 def scrollDown():
