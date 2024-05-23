@@ -232,17 +232,17 @@ while True:
                 next_xpath = '//*[@id="about"]/div[3]/div[' + str(j) + ']'
 
                 try:
-                    print(1)
+                    print("Found a guy")
                     WebDriverWait(driver, 4).until(EC.element_to_be_clickable((By.XPATH, next_xpath)))
-                    print(2)
+    
                     next_element = driver.find_element(By.XPATH, next_xpath)
-                    print(3)
+
 
                     next_a_element = next_element.find_element(By.TAG_NAME, 'a')
                     nextFounderLink = next_a_element.get_attribute("href")
                     potentialLinks.append(nextFounderLink)
                     projectLink = driver.current_url
-                    print(4)
+
                     haveWeFoundSomeone = True
                     #Now were in the founders profile
                 except:
