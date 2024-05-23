@@ -191,7 +191,7 @@ while True:
             haveWeFoundAProduct = True
             time.sleep(2)
             print(1)
-            print(driver.execute_script("return document.body.scrollHeight"))
+            #print(driver.execute_script("return document.body.scrollHeight"))
             while attempt < 3:
                 try:
                     # Wait until the project element is clickable
