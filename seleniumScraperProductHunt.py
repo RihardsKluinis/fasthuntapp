@@ -171,10 +171,16 @@ def scrollDown():
 # Loop to click on each item
 
 
+
+
+driver.get('https://www.producthunt.com/leaderboard/daily/2024/5/1/all')
+time.sleep(5)
 for i in range(1, 200):
     xpath = '//*[@id="__next"]/div/main/div/div[2]/div[' + str(i) + ']/div/div[1]/a[1]/div'
+    WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, xpath)))
     if driver.find_element(By.XPATH, xpath)==True:
-        print(1, "is good")
+        print(i, "is good")
+    
     
 
     
