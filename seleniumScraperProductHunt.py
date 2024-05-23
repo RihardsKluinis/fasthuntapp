@@ -186,6 +186,7 @@ time.sleep(5)
 for i in range(1, 200):
     xpath = '//*[@id="__next"]/div/main/div/div[2]/div[' + str(i) + ']/div/div[1]/a[1]/div'
     try:
+        WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, xpath)))
         if driver.find_element(By.XPATH, xpath)==True:
             print(i, "is good")
     except:
