@@ -236,7 +236,7 @@ while True:
                     print(2)
                     next_element = driver.find_element(By.XPATH, next_xpath)
                     print(3)
-                    print(next_element)
+                    print(next_element.text)
                     #next_a_element = next_element.find_element(By.TAG_NAME, 'a')
                     hrefs = driver.execute_script("""
                     var element = arguments[0];
