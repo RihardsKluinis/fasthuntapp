@@ -166,7 +166,7 @@ def scrollDown():
     window_height = driver.execute_script("return window.innerHeight;")
     
     # Scroll down by 10% of the window height
-    scroll_amount = int(window_height * 0.15)
+    scroll_amount = int(window_height * 0.11)
     driver.execute_script(f"window.scrollBy(0, {scroll_amount});")
     print("the window height is", window_height, " And scroll amount is", scroll_amount)
 
@@ -175,7 +175,7 @@ def scrollDown():
 
 
 
-driver.get('https://www.producthunt.com/leaderboard/daily/2024/5/2/all')
+driver.get('https://www.producthunt.com/leaderboard/monthly/2024/5/all')
 time.sleep(5)
 for i in range(1, 200):
     xpath = '//*[@id="__next"]/div/main/div/div[2]/div[' + str(i) + ']/div/div[1]/a[1]/div'
@@ -188,7 +188,7 @@ for i in range(1, 200):
     print(height)
 
     scrollDown()
-    time.sleep(0.5)
+    time.sleep(0.2)
 
     
     
