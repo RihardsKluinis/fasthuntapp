@@ -184,9 +184,11 @@ for i in range(1, 200):
         print(i)
     except:
         print("bad element")
-    
+    height = driver.execute_script("return document.body.scrollHeight")
+    print(height)
+
     scrollDown()
-    time.sleep(2)
+    time.sleep(0.5)
 
     
     
