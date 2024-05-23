@@ -166,7 +166,7 @@ def scrollDown():
     window_height = driver.execute_script("return window.innerHeight;")
     
     # Scroll down by 10% of the window height
-    scroll_amount = int(window_height * 0.1)
+    scroll_amount = int(window_height * 0.15)
     driver.execute_script(f"window.scrollBy(0, {scroll_amount});")
     print("the window height is", window_height, " And scroll amount is", scroll_amount)
 
