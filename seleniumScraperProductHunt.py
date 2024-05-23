@@ -253,7 +253,9 @@ while True:
                 except:
                     print(f"that's it for now")
                     backButton = driver.find_element(By.XPATH, '//*[@id="__next"]/div[1]/a')
+                    print(9)
                     backButton.click()
+                    print(10)
                     break
                 
                 time.sleep(1)
@@ -265,12 +267,20 @@ while True:
             for link in potentialLinks:
                 if "@" in str(link):
                     print(link)
+                    print(11)
                     founderLinks.append(str(link))
+                    print(12)
+            print(13)
             dateOfPosting = str(day)+"/05/2024"
+            print(14)
             if haveWeFoundSomeone == True and len(founderLinks)>0:
+                print(15)
                 app = initScrapper()
+                print(16)
                 getTheData(projectLink, founderLinks, dateOfPosting)
+                print(17)
                 closeConnectionScrapper(app)
+                print(18)
             time.sleep(1)
         except:
             print("We've seen everything today")
