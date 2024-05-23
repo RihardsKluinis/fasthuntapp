@@ -175,7 +175,7 @@ def scrollDown():
 
 
 
-driver.get('https://www.producthunt.com/leaderboard/daily/2024/5/1/all')
+driver.get('https://www.producthunt.com/leaderboard/daily/2024/5/2/all')
 time.sleep(5)
 for i in range(1, 200):
     xpath = '//*[@id="__next"]/div/main/div/div[2]/div[' + str(i) + ']/div/div[1]/a[1]/div'
