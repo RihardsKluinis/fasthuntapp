@@ -237,18 +237,33 @@ while True:
                     next_element = driver.find_element(By.XPATH, next_xpath)
                     print(3)
 
-                    next_a_element = next_element.find_element(By.TAG_NAME, 'a')
-                    print(5)
-                    nextFounderLink = next_a_element.get_attribute("href")
-                    print(6)
-                    potentialLinks.append(nextFounderLink)
-                    print(7)
-                    projectLink = driver.current_url
-                    print(8)
+                    #next_a_element = next_element.find_element(By.TAG_NAME, 'a')
+                    hrefs = driver.execute_script("""
+                    var element = arguments[0];
+                    var links = element.getElementsByTagName('*');
+                    var hrefs = [];
+                    for (var i = 0; i < links.length; i++) {
+                        if (links[i].hasAttribute('href')) {
+                            hrefs.push(links[i].getAttribute('href'));
+                        }
+                    }
+                    return hrefs;
+                """, next_element)
 
-                    haveWeFoundSomeone = True
-                    print("Found a guy")
-                    #Now were in the founders profile
+                    found_valid_link = False
+                    for href in hrefs:
+                        if href and "@" in href:
+                            print(f"Found founder link with @: {href}")
+                            potentialLinks.append(href)
+                            projectLink = driver.current_url
+                            time.sleep(1)
+                            print(4)
+                            haveWeFoundSomeone = True
+                            found_valid_link = True
+                            break  # Exit the inner loop if a valid link is found
+                        else:
+                            print(f"Found link does not contain @: {href}")
+                    
                 except:
                     print(f"that's it for now")
                     backButton = driver.find_element(By.XPATH, '//*[@id="__next"]/div[1]/a')
