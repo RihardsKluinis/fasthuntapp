@@ -236,11 +236,16 @@ while True:
                     print(2)
                     next_element = driver.find_element(By.XPATH, next_xpath)
                     print(3)
+                    another_xpath = '//*[@id="about"]/div[2]/div[' + str(j) + ']'
+                    nextOne = driver.find_element(By.XPATH,another_xpath).get_attribute('outerHTML')
+
+
                     element_html = next_element.get_attribute('outerHTML')
                     print(f"Element HTML: {element_html}")
 
-                    another_xpath = '//*[@id="about"]/div[3]/div[' + str(j) + ']'
+                    another_xpath = '//*[@id="about"]/div[4]/div[' + str(j) + ']'
                     nextOne = driver.find_element(By.XPATH,another_xpath).get_attribute('outerHTML')
+
                     print(f"222HTML: {nextOne}")
                     #next_a_element = next_element.find_element(By.TAG_NAME, 'a')
                     hrefs = driver.execute_script("""
