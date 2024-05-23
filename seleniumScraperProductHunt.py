@@ -236,9 +236,6 @@ while True:
                     print(2)
                     next_element = driver.find_element(By.XPATH, next_xpath)
                     print(3)
-                    another_xpath = '//*[@id="about"]/div[2]/div[' + str(j) + ']'
-                    nextOne = driver.find_element(By.XPATH,another_xpath).get_attribute('outerHTML')
-
 
                     element_html = next_element.get_attribute('outerHTML')
                     print(f"Element HTML: {element_html}")
