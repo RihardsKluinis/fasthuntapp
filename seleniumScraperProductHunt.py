@@ -45,8 +45,7 @@ def closeConnectionScrapper(app):
 
 def getTheData(projectLink, founderLinks, dateOfPosting):    
     # Define the URL for running the actor synchronously
-    url = "https://api.apify.com/v2/acts/lhotanova~product-hunt-profile-scraper/run-sync-get-dataset-items?token=apify_api_idXFjAfQnn8AQcPIN1cWCAowPc39EJ0do8YL"
-
+    url = "https://api.apify.com/v2/acts/lhotanova~product-hunt-profile-scraper/run-sync-get-dataset-items?token=apify_api_m6MWCkR27D3lhenLdTPIKdrXw6gLon08aF9V"
     # Define the input data (profile URLs)
     input_data = {
         "profileUrls": founderLinks
