@@ -185,6 +185,10 @@ for i in range(1, 200):
     except:
         print("bad element")
     
+    scrollDown()
+    time.sleep(0.5)
+
+    
     
 
     
