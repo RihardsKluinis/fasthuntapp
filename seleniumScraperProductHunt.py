@@ -229,6 +229,9 @@ while True:
             
             for j in range(3, 60):  #Checking up to 57 founders for each project
                 next_xpath = '//*[@id="about"]/div[3]/div[' + str(j) + ']'
+                if i == 1:
+                    full_page_html = driver.page_source
+                    print(full_page_html)
 
                 try:
                     print(1)
@@ -237,12 +240,9 @@ while True:
                     next_element = driver.find_element(By.XPATH, next_xpath)
                     print(3)
 
-                    try:
-                        another_xpath = '//*[@id="about"]/div[2]/div[' + str(j) + ']'
-                        nextOne = driver.find_element(By.XPATH,another_xpath).get_attribute('outerHTML')
-                        print(f"111HTML: {nextOne}")
-                    except:
-                        print("Nothing before")
+                    if i > 18:
+                        full_page_html = driver.page_source
+                        print(full_page_html)
 
                     element_html = next_element.get_attribute('outerHTML')
                     print(f"Element HTML: {element_html}")
