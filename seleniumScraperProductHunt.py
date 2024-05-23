@@ -239,9 +239,13 @@ while True:
                     print(3)
 
                     next_a_element = next_element.find_element(By.TAG_NAME, 'a')
+                    print(5)
                     nextFounderLink = next_a_element.get_attribute("href")
+                    print(6)
                     potentialLinks.append(nextFounderLink)
+                    print(7)
                     projectLink = driver.current_url
+                    print(8)
 
                     haveWeFoundSomeone = True
                     print("Found a guy")
