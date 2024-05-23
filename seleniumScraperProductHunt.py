@@ -186,7 +186,7 @@ for i in range(1, 200):
         print("bad element")
     
     scrollDown()
-    time.sleep(0.5)
+    time.sleep(2)
 
     
     
