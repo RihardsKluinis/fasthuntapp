@@ -229,8 +229,6 @@ while True:
             
             for j in range(3, 60):  #Checking up to 57 founders for each project
                 next_xpath = '//*[@id="about"]/div[3]/div[' + str(j) + ']'
-                if i <15:
-                    break
 
                 try:
                     print(1)
@@ -292,17 +290,17 @@ while True:
                     founderLinks.append("https://www.producthunt.com/"+str(link))
                     print(12)
             print(13)
-            dateOfPosting = str(day)+"/05/2024"
-            print(14)
-            if haveWeFoundSomeone == True and len(founderLinks)>0:
-                print(15)
-                app = initScrapper()
-                print(16)
-                getTheData(projectLink, founderLinks, dateOfPosting)
-                print(17)
-                closeConnectionScrapper(app)
-                print(18)
-            time.sleep(1)
+            # dateOfPosting = str(day)+"/05/2024"
+            # print(14)
+            # if haveWeFoundSomeone == True and len(founderLinks)>0:
+            #     print(15)
+            #     app = initScrapper()
+            #     print(16)
+            #     getTheData(projectLink, founderLinks, dateOfPosting)
+            #     print(17)
+            #     closeConnectionScrapper(app)
+            #     print(18)
+            # time.sleep(1)
         except:
             print("We've seen everything today")
             break
