@@ -204,7 +204,7 @@ while True:
                 time.sleep(5)
                 first = 2
             xpath = '//*[@id="__next"]/div/main/div/div[2]/div[' + str(i) + ']/div/div[1]/a[1]/div'
-        
+            
 
             # Find the element of project
             haveWeFoundAProduct = True
@@ -215,7 +215,7 @@ while True:
                 element = driver.find_element(By.XPATH, xpath)
                 # Click on the element
                 element.click()
-                break  # Break the loop if click succeeds
+
             except :
                 haveWeFoundAProduct= False
 
