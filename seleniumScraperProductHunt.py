@@ -107,7 +107,7 @@ def getTheData(projectLink, founderLinks, dateOfPosting):
 
 # Set Chrome options
 chrome_options = Options()
-chrome_options.add_argument("--headless=new")  # Optional: run in headless mode
+chrome_options.add_argument("--headless")  # Optional: run in headless mode
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-sh-usage")
 
