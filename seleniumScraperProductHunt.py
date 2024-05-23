@@ -263,7 +263,7 @@ while True:
                             break  # Exit the inner loop if a valid link is found
                         else:
                             print(f"Found link does not contain @: {href}")
-                    
+
                 except:
                     print(f"that's it for now")
                     backButton = driver.find_element(By.XPATH, '//*[@id="__next"]/div[1]/a')
@@ -282,7 +282,7 @@ while True:
                 if "@" in str(link):
                     print(link)
                     print(11)
-                    founderLinks.append(str(link))
+                    founderLinks.append("https://www.producthunt.com/"+str(link))
                     print(12)
             print(13)
             dateOfPosting = str(day)+"/05/2024"
