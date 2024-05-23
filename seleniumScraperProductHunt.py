@@ -242,7 +242,6 @@ while True:
                     nextFounderLink = next_a_element.get_attribute("href")
                     potentialLinks.append(nextFounderLink)
                     projectLink = driver.current_url
-                    time.sleep(1)
                     print(4)
                     haveWeFoundSomeone = True
                     #Now were in the founders profile
