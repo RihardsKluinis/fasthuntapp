@@ -160,12 +160,13 @@ time.sleep(5)
 
 
 driver.set_window_size(1920, 1080)
-def scroll_to_xpath(xpath):
-    # Find the element to scroll to
-    element = driver.find_element(By.XPATH, xpath)
+def scrollDown():
+    window_height = driver.execute_script("return window.innerHeight;")
     
-    # Scroll to the element
-    driver.execute_script("arguments[0].scrollIntoView();", element)
+    # Scroll down by 10% of the window height
+    scroll_amount = int(window_height * 0.1)
+    driver.execute_script(f"window.scrollBy(0, {scroll_amount});")
+    print("the window height is", window_height, " And scroll amount is", scroll_amount)
 
 # Loop to click on each item
 
@@ -185,7 +186,7 @@ while True:
                 time.sleep(5)
                 first = 2
             xpath = '//*[@id="__next"]/div/main/div/div[2]/div[' + str(i) + ']/div/div[1]/a[1]/div'
-            
+        
             attempt = 0
             # Find the element of project
             haveWeFoundAProduct = True
@@ -194,7 +195,6 @@ while True:
                 try:
                     # Wait until the project element is clickable
                     WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, xpath)))
-                    scroll_to_xpath(xpath)
                     element = driver.find_element(By.XPATH, xpath)
                     # Click on the element
                     element.click()
@@ -244,6 +244,7 @@ while True:
                     break
                 
                 time.sleep(1)
+            scrollDown()
 
                 
                     
