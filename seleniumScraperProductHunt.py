@@ -233,8 +233,8 @@ while True:
                 try:
 
                     if i > 17:
-                        next_xpath = '//*[@id="about"]/div[2]/div[' + str(j) + ']/a'
-                        
+                        next_xpath = '//*[@id="about"]/div[2]/div[' + str(j-1) + ']'
+
                     print(1)
                     WebDriverWait(driver, 4).until(EC.element_to_be_clickable((By.XPATH, next_xpath)))
                     print(2)
