@@ -12,7 +12,7 @@ import time
 
 
 
-
+import logging
 
 
 
@@ -80,6 +80,7 @@ def getTheData(projectLink, founderLinks, dateOfPosting):
                 print(f"Profile {profile_id} already exists under project {project_name}, skipping...")
                 continue
         print("Project Name is", project_name)
+        logging.info("Project Name is", project_name)
 
         # Create a new child node under the main node for the project if it doesn't exist
         project_ref = main_ref.child(project_name)
@@ -127,6 +128,9 @@ driver.get('https://www.producthunt.com')
 base_dir = os.path.dirname(os.path.abspath(__file__))
 cookies_file = os.path.join(base_dir, 'credentials', 'producthunt_cookies.txt')
 
+
+logging.basicConfig(level=logging.INFO)
+
 with open(cookies_file, 'r') as f:
     cookies = f.readlines()
 
@@ -151,12 +155,8 @@ for cookie in cookies:
 # Refresh the page to apply the cookies
 driver.refresh()
 
-
-# Navigate to the page
-
 # Pause for initial loading
 time.sleep(5)
-
 
 
 driver.set_window_size(1920, 1080)
@@ -171,21 +171,7 @@ def scrollDown():
 # Loop to click on each item
 
 
-
-
 time.sleep(5)
-# for i in range(1, 200):
-#     xpath = '//*[@id="__next"]/div/main/div/div[2]/div[' + str(i) + ']/div/div[1]/a[1]/div'
-#     try:
-#         WebDriverWait(driver, 4).until(EC.element_to_be_clickable((By.XPATH, xpath)))
-#         print(i)
-#     except:
-#         print("bad element")
-#     height = driver.execute_script("return document.body.scrollHeight")
-#     print(height)
-
-#     scrollDown()
-#     time.sleep(0.2)
 
 day = 1
 while True:
@@ -282,7 +268,7 @@ while True:
         for link in potentialLinks:
             if "@" in str(link):
                 print(link)
-
+                logging.info(link)
                 founderLinks.append("https://www.producthunt.com/"+str(link))
 
 
