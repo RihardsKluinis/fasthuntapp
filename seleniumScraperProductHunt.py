@@ -103,10 +103,6 @@ def getTheData(projectLink, founderLinks, dateOfPosting):
 
  
 
-
-# Set the path to the Chrome WebDriver executable
-
-
 # Set Chrome options
 chrome_options = Options()
 chrome_options.add_argument("--headless")
