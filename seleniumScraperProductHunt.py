@@ -236,9 +236,7 @@ while True:
         
         for j in range(3, 60):  #Checking up to 57 founders for each project
             next_xpath = '//*[@id="about"]/div[3]/div[' + str(j) + ']'
-
             try:
-
                 if i > 17:
                     next_xpath = '//*[@id="about"]/div[2]/div[' + str(j-1) + ']'
 
