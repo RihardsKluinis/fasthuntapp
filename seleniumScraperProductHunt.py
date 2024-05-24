@@ -101,7 +101,7 @@ def getTheData(projectLink, founderLinks, dateOfPosting):
 
     print("Profiles uploaded successfully to Firebase Realtime Database.")
 
-
+ 
 
 
 # Set the path to the Chrome WebDriver executable
