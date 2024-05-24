@@ -229,29 +229,18 @@ while True:
             
             for j in range(3, 60):  #Checking up to 57 founders for each project
                 next_xpath = '//*[@id="about"]/div[3]/div[' + str(j) + ']'
-                if i == 1:
-                    full_page_html = driver.page_source
-                    print(full_page_html)
 
                 try:
+
+                    if i > 17:
+                        next_xpath = '//*[@id="about"]/div[2]/div[' + str(j) + ']/a'
+                        
                     print(1)
                     WebDriverWait(driver, 4).until(EC.element_to_be_clickable((By.XPATH, next_xpath)))
                     print(2)
                     next_element = driver.find_element(By.XPATH, next_xpath)
                     print(3)
-
-                    if i > 18:
-                        full_page_html = driver.page_source
-                        print(full_page_html)
-
-                    element_html = next_element.get_attribute('outerHTML')
-                    print(f"Element HTML: {element_html}")
-
-                    another_xpath = '//*[@id="about"]/div[4]/div[' + str(j) + ']'
-                    nextOne = driver.find_element(By.XPATH,another_xpath).get_attribute('outerHTML')
-                    print(f"222HTML: {nextOne}")
-
-
+                        
                     #next_a_element = next_element.find_element(By.TAG_NAME, 'a')
                     hrefs = driver.execute_script("""
                     var element = arguments[0];
@@ -265,7 +254,6 @@ while True:
                     return hrefs;
                 """, next_element)
 
-                    found_valid_link = False
                     for href in hrefs:
                         if href and "@" in href:
                             print(f"Found founder link with @: {href}")
@@ -274,7 +262,6 @@ while True:
                             time.sleep(1)
                             print(4)
                             haveWeFoundSomeone = True
-                            found_valid_link = True
                             break  # Exit the inner loop if a valid link is found
                         else:
                             print(f"Found link does not contain @: {href}")
