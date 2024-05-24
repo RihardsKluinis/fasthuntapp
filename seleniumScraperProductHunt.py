@@ -61,6 +61,7 @@ def getTheData(projectLink, founderLinks, dateOfPosting):
 
     # Loop through each profile data and upload them under 'profiles' node
     project_ids = {}
+    nameOfProject = ""
     for profile_data in dataset_items:
         # Extract project name from the project link
         project_name = projectLink.split("/")[-1].split("#")[0]
@@ -95,6 +96,8 @@ def getTheData(projectLink, founderLinks, dateOfPosting):
             project_ids[project_name].add(profile_id)
         else:
             project_ids[project_name] = {profile_id}
+        nameOfProject= project_name
+    print("The project name is", nameOfProject)
 
     print("Profiles uploaded successfully to Firebase Realtime Database.")
 
@@ -195,112 +198,109 @@ while True:
     time.sleep(3)
     
     first = 1
-    for i in range(1, 100):  # Assuming there are 84 elements on the page
-        try:
-            height = driver.execute_script("return document.body.scrollHeight")
-            print("We're at ", i, "and page height is", height)
-            if first == 1:
-                time.sleep(5)
-                first = 2
-            xpath = '//*[@id="__next"]/div/main/div/div[2]/div[' + str(i) + ']/div/div[1]/a[1]/div'
-            
-
-            # Find the element of project
-            haveWeFoundAProduct = True
-            time.sleep(2)
-            try:
-                # Wait until the project element is clickable
-                WebDriverWait(driver, 4).until(EC.element_to_be_clickable((By.XPATH, xpath)))
-                element = driver.find_element(By.XPATH, xpath)
-                # Click on the element
-                element.click()
-
-            except :
-                haveWeFoundAProduct= False
-
-
-            if haveWeFoundAProduct == False:
-                continue
-            # Wait a little bit for the page to load
-            time.sleep(2)
-            potentialLinks = []
-            projectLink = ""
-            haveWeFoundSomeone = False
-            
-            for j in range(3, 60):  #Checking up to 57 founders for each project
-                next_xpath = '//*[@id="about"]/div[3]/div[' + str(j) + ']'
-
-                try:
-
-                    if i > 17:
-                        next_xpath = '//*[@id="about"]/div[2]/div[' + str(j-1) + ']'
-
-                    print(1)
-                    WebDriverWait(driver, 4).until(EC.element_to_be_clickable((By.XPATH, next_xpath)))
-                    print(2)
-                    next_element = driver.find_element(By.XPATH, next_xpath)
-                    print(3)
-                        
-                    #next_a_element = next_element.find_element(By.TAG_NAME, 'a')
-                    hrefs = driver.execute_script("""
-                    var element = arguments[0];
-                    var links = element.getElementsByTagName('*');
-                    var hrefs = [];
-                    for (var i = 0; i < links.length; i++) {
-                        if (links[i].hasAttribute('href')) {
-                            hrefs.push(links[i].getAttribute('href'));
-                        }
-                    }
-                    return hrefs;
-                """, next_element)
-
-                    for href in hrefs:
-                        if href and "@" in href:
-                            print(f"Found founder link with @: {href}")
-                            potentialLinks.append(href)
-                            projectLink = driver.current_url
-                            time.sleep(1)
-                            print(4)
-                            haveWeFoundSomeone = True
-                            break  # Exit the inner loop if a valid link is found
-                        else:
-                            print(f"Found link does not contain @: {href}")
-
-                except:
-                    print(f"that's it for now")
-                    backButton = driver.find_element(By.XPATH, '//*[@id="__next"]/div[1]/a')
-                    print(9)
-                    backButton.click()
-                    print(10)
-                    break
-                
-                time.sleep(1)
-            scrollDown()
-
-            
-            founderLinks = []
-            # Wait for the page to load after navigating back
-            for link in potentialLinks:
-                if "@" in str(link):
-                    print(link)
-                    print(11)
-                    founderLinks.append("https://www.producthunt.com/"+str(link))
-                    print(12)
-            print(13)
-            # dateOfPosting = str(day)+"/05/2024"
-            # print(14)
-            # if haveWeFoundSomeone == True and len(founderLinks)>0:
-            #     print(15)
-            #     app = initScrapper()
-            #     print(16)
-            #     getTheData(projectLink, founderLinks, dateOfPosting)
-            #     print(17)
-            #     closeConnectionScrapper(app)
-            #     print(18)
-            # time.sleep(1)
-        except:
-            print("We've seen everything today")
+    howManydaysWithoutProduct = 0
+    for i in range(1, 300):  # Assuming there are maximum 300 launches in a day
+        if howManydaysWithoutProduct > 5:
             break
+        height = driver.execute_script("return document.body.scrollHeight")
+        print("We're at ", i, "and page height is", height)
+        if first == 1:
+            time.sleep(5)
+            first = 2
+        xpath = '//*[@id="__next"]/div/main/div/div[2]/div[' + str(i) + ']/div/div[1]/a[1]/div'
+        
+
+        # Find the element of project
+        haveWeFoundAProduct = True
+        time.sleep(2)
+        try:
+            # Wait until the project element is clickable
+            WebDriverWait(driver, 4).until(EC.element_to_be_clickable((By.XPATH, xpath)))
+            element = driver.find_element(By.XPATH, xpath)
+            # Click on the element
+            element.click()
+            howManydaysWithoutProduct = 0
+
+        except :
+            haveWeFoundAProduct= False
+
+
+        if haveWeFoundAProduct == False:
+            howManydaysWithoutProduct = howManydaysWithoutProduct + 1
+            continue
+        # Wait a little bit for the page to load
+        time.sleep(2)
+        potentialLinks = []
+        projectLink = ""
+        haveWeFoundSomeone = False
+        
+        for j in range(3, 60):  #Checking up to 57 founders for each project
+            next_xpath = '//*[@id="about"]/div[3]/div[' + str(j) + ']'
+
+            try:
+
+                if i > 17:
+                    next_xpath = '//*[@id="about"]/div[2]/div[' + str(j-1) + ']'
+
+                WebDriverWait(driver, 4).until(EC.element_to_be_clickable((By.XPATH, next_xpath)))
+
+                next_element = driver.find_element(By.XPATH, next_xpath)
+
+                    
+                #next_a_element = next_element.find_element(By.TAG_NAME, 'a')
+                hrefs = driver.execute_script("""
+                var element = arguments[0];
+                var links = element.getElementsByTagName('*');
+                var hrefs = [];
+                for (var i = 0; i < links.length; i++) {
+                    if (links[i].hasAttribute('href')) {
+                        hrefs.push(links[i].getAttribute('href'));
+                    }
+                }
+                return hrefs;
+            """, next_element)
+
+                for href in hrefs:
+                    if href and "@" in href:
+                        print(f"Found founder link with @: {href}")
+                        potentialLinks.append(href)
+                        projectLink = driver.current_url
+                        time.sleep(1)
+
+                        haveWeFoundSomeone = True
+                        break  # Exit the inner loop if a valid link is found
+                    else:
+                        print(f"Found link does not contain @: {href}")
+
+            except:
+                print(f"that's it for now")
+                backButton = driver.find_element(By.XPATH, '//*[@id="__next"]/div[1]/a')
+
+                backButton.click()
+                break
+            
+            time.sleep(1)
+        scrollDown()
+
+        
+        founderLinks = []
+        # Wait for the page to load after navigating back
+        for link in potentialLinks:
+            if "@" in str(link):
+                print(link)
+
+                founderLinks.append("https://www.producthunt.com/"+str(link))
+
+
+        dateOfPosting = str(day)+"/05/2024"
+
+        if haveWeFoundSomeone == True and len(founderLinks)>0:
+
+            app = initScrapper()
+            getTheData(projectLink, founderLinks, dateOfPosting)
+            closeConnectionScrapper(app)
+        time.sleep(1)
+
     day = day + 1
         
             
