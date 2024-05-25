@@ -52,7 +52,7 @@ def getTheData(projectLink, founderLinks, dateOfPosting):
     logging.info("Sending request to Apify API")
     response = requests.post(url, json=input_data)
 
-    if response.status_code != 200 or response.status_code != 201:
+    if response.status_code != 200 and response.status_code != 201:
         logging.error(f"Error: Received status code {response.status_code}")
         return
 
