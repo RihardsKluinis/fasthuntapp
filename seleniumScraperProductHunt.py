@@ -43,16 +43,91 @@ def closeConnectionScrapper(app):
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
+# def getTheData(projectLink, founderLinks, dateOfPosting):
+#     url = "https://api.apify.com/v2/acts/lhotanova~product-hunt-profile-scraper/run-sync-get-dataset-items?token=apify_api_m6MWCkR27D3lhenLdTPIKdrXw6gLon08aF9V"
+#     input_data = {
+#         "profileUrls": founderLinks
+#     }
+
+#     logging.info("Sending request to Apify API")
+#     response = requests.post(url, json=input_data)
+
+#     if response.status_code != 200 and response.status_code != 201:
+#         logging.error(f"Error: Received status code {response.status_code}")
+#         return
+
+#     try:
+#         dataset_items = response.json()
+#     except ValueError:
+#         logging.error("Failed to parse JSON response")
+#         logging.debug("Response content: %s", response.text)
+#         return
+
+#     if not isinstance(dataset_items, list):
+#         logging.error("Unexpected data format: %s", dataset_items)
+#         return
+
+#     main_ref = db.reference('/projects')
+#     logging.info("Retrieved main Firebase reference")
+
+#     # Fetch only the project names
+#     existing_projects = main_ref.get(shallow=True) or {}
+#     logging.info("Fetched existing project names from Firebase")
+
+#     project_ids = {}
+#     nameOfProject = ""
+#     batch_data = {}
+
+#     for profile_data in dataset_items:
+#         project_name = projectLink.split("/")[-1].split("#")[0]
+#         logging.info("Processing project: %s", project_name)
+
+#         if project_name in existing_projects:
+#             logging.info("Project %s already exists, skipping...", project_name)
+#             continue
+
+#         try:
+#             profile_id = profile_data['id']
+#         except (KeyError, TypeError):
+#             logging.error("Error processing profile data: %s", profile_data)
+#             continue
+
+#         if project_name in project_ids and profile_id in project_ids[project_name]:
+#             logging.info("Profile %s already exists under project %s, skipping...", profile_id, project_name)
+#             continue
+
+#         if project_name not in batch_data:
+#             batch_data[project_name] = {
+#                 'profiles': {},
+#                 'date': dateOfPosting
+#             }
+
+#         batch_data[project_name]['profiles'][profile_id] = profile_data
+#         logging.info("Prepared profile data for project %s", project_name)
+
+#         if project_name in project_ids:
+#             project_ids[project_name].add(profile_id)
+#         else:
+#             project_ids[project_name] = {profile_id}
+
+#         nameOfProject = project_name
+
+#     # Batch update to Firebase
+#     for project_name, data in batch_data.items():
+#         project_ref = main_ref.child(project_name)
+#         project_ref.set(data)
+#         logging.info("Batch uploaded data for project %s", project_name)
+
+#     logging.info("The project name is %s", nameOfProject)
+#     logging.info("Profiles uploaded successfully to Firebase Realtime Database.")
 def getTheData(projectLink, founderLinks, dateOfPosting):
     url = "https://api.apify.com/v2/acts/lhotanova~product-hunt-profile-scraper/run-sync-get-dataset-items?token=apify_api_m6MWCkR27D3lhenLdTPIKdrXw6gLon08aF9V"
-    input_data = {
-        "profileUrls": founderLinks
-    }
+    input_data = {"profileUrls": founderLinks}
 
     logging.info("Sending request to Apify API")
     response = requests.post(url, json=input_data)
 
-    if response.status_code != 200 and response.status_code != 201:
+    if response.status_code not in (200, 201):
         logging.error(f"Error: Received status code {response.status_code}")
         return
 
@@ -70,19 +145,13 @@ def getTheData(projectLink, founderLinks, dateOfPosting):
     main_ref = db.reference('/projects')
     logging.info("Retrieved main Firebase reference")
 
-    # Get the current data from Firebase to check for duplicates
-    existing_projects = main_ref.get() or {}
-    logging.info("Fetched existing projects from Firebase")
-
     project_ids = {}
     nameOfProject = ""
+    batch_data = {}
+
     for profile_data in dataset_items:
         project_name = projectLink.split("/")[-1].split("#")[0]
         logging.info("Processing project: %s", project_name)
-
-        if project_name in existing_projects:
-            logging.info("Project %s already exists, skipping...", project_name)
-            continue
 
         try:
             profile_id = profile_data['id']
@@ -90,24 +159,27 @@ def getTheData(projectLink, founderLinks, dateOfPosting):
             logging.error("Error processing profile data: %s", profile_data)
             continue
 
-        if project_name in project_ids and profile_id in project_ids[project_name]:
-            logging.info("Profile %s already exists under project %s, skipping...", profile_id, project_name)
-            continue
+        if project_name not in batch_data:
+            batch_data[project_name] = {
+                'profiles': {},
+                'date': dateOfPosting
+            }
 
-        project_ref = main_ref.child(project_name)
-        profile_ref = project_ref.child(profile_id)
-
-        logging.info("Project Name is %s", project_name)
-
-        profile_ref.set(profile_data)
-        project_ref.update({'date': dateOfPosting})
-        logging.info("Profile data and date uploaded for project %s", project_name)
+        batch_data[project_name]['profiles'][profile_id] = profile_data
+        logging.info("Prepared profile data for project %s", project_name)
 
         if project_name in project_ids:
             project_ids[project_name].add(profile_id)
         else:
             project_ids[project_name] = {profile_id}
+
         nameOfProject = project_name
+
+    # Batch update to Firebase
+    for project_name, data in batch_data.items():
+        project_ref = main_ref.child(project_name)
+        project_ref.set(data)
+        logging.info("Batch uploaded data for project %s", project_name)
 
     logging.info("The project name is %s", nameOfProject)
     logging.info("Profiles uploaded successfully to Firebase Realtime Database.")
@@ -198,7 +270,7 @@ time.sleep(5)
 #     scrollDown()
 #     time.sleep(0.2)
 
-day = 1
+day = 9
 while True:
     time.sleep(3)
     driver.get('https://www.producthunt.com/leaderboard/daily/2024/5/'+str(day)+'/all')
