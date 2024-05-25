@@ -272,6 +272,8 @@ time.sleep(5)
 
 day = 9
 while True:
+    if day == 27:
+        break
     time.sleep(3)
     driver.get('https://www.producthunt.com/leaderboard/daily/2024/5/'+str(day)+'/all')
     time.sleep(3)

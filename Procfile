@@ -1,1 +1,1 @@
-worker: -a python seleniumScraperProductHunt.py
+worker: python seleniumScraperProductHunt.py
