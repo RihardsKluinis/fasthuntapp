@@ -52,11 +52,22 @@ def getTheData(projectLink, founderLinks, dateOfPosting):
     }
 
     response = requests.post(url, json=input_data)
-    # Make a POST request to run the actor synchronously with input data
-    # Extract the dataset items from the response
-    dataset_items = response.json()
 
-    # Get a reference to your main node in the Firebase Realtime Database
+    if response.status_code != 200:
+        print(f"Error: Received status code {response.status_code}")
+        return
+
+    try:
+        dataset_items = response.json()
+    except ValueError:
+        print("Failed to parse JSON response")
+        print("Response content:", response.text)
+        return
+
+    if not isinstance(dataset_items, list):
+        print("Unexpected data format:", dataset_items)
+        return
+
     main_ref = db.reference('/projects')
 
     # Loop through each profile data and upload them under 'profiles' node
