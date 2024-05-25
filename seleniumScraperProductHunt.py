@@ -12,7 +12,7 @@ import time
 
 
 
-
+import logging
 
 
 
@@ -41,76 +41,76 @@ def closeConnectionScrapper(app):
 
 #def addToFirebaseScrapper(projectLink, founderLinks):
 
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-
-def getTheData(projectLink, founderLinks, dateOfPosting):    
-    # Define the URL for running the actor synchronously
+def getTheData(projectLink, founderLinks, dateOfPosting):
     url = "https://api.apify.com/v2/acts/lhotanova~product-hunt-profile-scraper/run-sync-get-dataset-items?token=apify_api_m6MWCkR27D3lhenLdTPIKdrXw6gLon08aF9V"
-    # Define the input data (profile URLs)
     input_data = {
         "profileUrls": founderLinks
     }
 
+    logging.info("Sending request to Apify API")
     response = requests.post(url, json=input_data)
 
     if response.status_code != 200:
-        print(f"Error: Received status code {response.status_code}")
+        logging.error(f"Error: Received status code {response.status_code}")
         return
 
     try:
         dataset_items = response.json()
     except ValueError:
-        print("Failed to parse JSON response")
-        print("Response content:", response.text)
+        logging.error("Failed to parse JSON response")
+        logging.debug("Response content: %s", response.text)
         return
 
     if not isinstance(dataset_items, list):
-        print("Unexpected data format:", dataset_items)
+        logging.error("Unexpected data format: %s", dataset_items)
         return
 
     main_ref = db.reference('/projects')
+    logging.info("Retrieved main Firebase reference")
 
-    # Loop through each profile data and upload them under 'profiles' node
+    # Get the current data from Firebase to check for duplicates
+    existing_projects = main_ref.get() or {}
+    logging.info("Fetched existing projects from Firebase")
+
     project_ids = {}
     nameOfProject = ""
     for profile_data in dataset_items:
-        # Extract project name from the project link
         project_name = projectLink.split("/")[-1].split("#")[0]
+        logging.info("Processing project: %s", project_name)
 
-        # Get the ID of the current profile
-        try:
-            profile_id = profile_data['id']
-        except KeyError:
-            print("Something went wrong in the DB process")
+        if project_name in existing_projects:
+            logging.info("Project %s already exists, skipping...", project_name)
             continue
 
-        # Check if the project already exists in the dictionary
-        if project_name in project_ids:
-            # Check if the profile ID is already used in the project
-            if profile_id in project_ids[project_name]:
-                print(f"Profile {profile_id} already exists under project {project_name}, skipping...")
-                continue
-        print("Project Name is", project_name)
+        try:
+            profile_id = profile_data['id']
+        except (KeyError, TypeError):
+            logging.error("Error processing profile data: %s", profile_data)
+            continue
 
-        # Create a new child node under the main node for the project if it doesn't exist
+        if project_name in project_ids and profile_id in project_ids[project_name]:
+            logging.info("Profile %s already exists under project %s, skipping...", profile_id, project_name)
+            continue
+
         project_ref = main_ref.child(project_name)
-
-        # Create a new child node under the project node for the profile
         profile_ref = project_ref.child(profile_id)
 
-        # Set the profile data along with the date
+        logging.info("Project Name is %s", project_name)
+
         profile_ref.set(profile_data)
         project_ref.update({'date': dateOfPosting})
+        logging.info("Profile data and date uploaded for project %s", project_name)
 
-        # Add the profile ID to the set of used IDs for the project
         if project_name in project_ids:
             project_ids[project_name].add(profile_id)
         else:
             project_ids[project_name] = {profile_id}
-        nameOfProject= project_name
-    print("The project name is", nameOfProject)
+        nameOfProject = project_name
 
-    print("Profiles uploaded successfully to Firebase Realtime Database.")
+    logging.info("The project name is %s", nameOfProject)
+    logging.info("Profiles uploaded successfully to Firebase Realtime Database.")
 
  
 
