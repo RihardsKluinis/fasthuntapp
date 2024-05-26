@@ -121,7 +121,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 #     logging.info("The project name is %s", nameOfProject)
 #     logging.info("Profiles uploaded successfully to Firebase Realtime Database.")
 def getTheData(projectLink, founderLinks, dateOfPosting):
-    url = "https://api.apify.com/v2/acts/lhotanova~product-hunt-profile-scraper/run-sync-get-dataset-items?token=apify_api_m6MWCkR27D3lhenLdTPIKdrXw6gLon08aF9V"
+    url = "https://api.apify.com/v2/acts/lhotanova~product-hunt-profile-scraper/run-sync-get-dataset-items?token=apify_api_4tIcxm9ONgw41idj9pyG2bU99ChxXp41T1td"
     input_data = {"profileUrls": founderLinks}
 
     logging.info("Sending request to Apify API")
@@ -272,6 +272,7 @@ time.sleep(5)
 
 day = 1
 while True:
+    
     if day == 31:
         break
     time.sleep(3)
@@ -284,7 +285,7 @@ while True:
         if howManydaysWithoutProduct > 5:
             break
         height = driver.execute_script("return document.body.scrollHeight")
-        print("We're at ", i, "and page height is", height)
+        print("We're at ", i, " page height is", height, "and day is ", day)
         if first == 1:
             time.sleep(5)
             first = 2
