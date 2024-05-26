@@ -270,7 +270,7 @@ time.sleep(5)
 #     scrollDown()
 #     time.sleep(0.2)
 
-day = 1
+day = 7
 while True:
     
     if day == 31:
