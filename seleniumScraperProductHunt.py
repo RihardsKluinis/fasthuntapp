@@ -304,7 +304,7 @@ while True:
         if howManydaysWithoutProduct > 5:
             break
         height = driver.execute_script("return document.body.scrollHeight")
-        print("We're at ", i, " page height is", height, "and day is ", day)
+        print("We're at ", i, " page height is", height, ", day is ", day, ",month is ", month, "and the year is ", year)
         if first == 1:
             time.sleep(5)
             first = 2
