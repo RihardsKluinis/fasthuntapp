@@ -1,3 +1,4 @@
+
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -23,6 +24,169 @@ import firebase_admin
 from firebase_admin import credentials, db
 import os
 
+def initScrapper():
+    # Get the directory of the current file
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    # Construct the full path to the credentials file
+    cred_path = os.path.join(base_dir, 'credentials', 'producthuntscraper-firebase-adminsdk-o82so-12e0513927.json')
+    cred = credentials.Certificate(cred_path)
+    app = firebase_admin.initialize_app(cred, {
+        'databaseURL': 'https://producthuntscraper-default-rtdb.europe-west1.firebasedatabase.app/'
+    })
+    return app
+
+def closeConnectionScrapper(app):
+    firebase_admin.delete_app(app)
+
+
+#def addToFirebaseScrapper(projectLink, founderLinks):
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# def getTheData(projectLink, founderLinks, dateOfPosting):
+#     url = "https://api.apify.com/v2/acts/lhotanova~product-hunt-profile-scraper/run-sync-get-dataset-items?token=apify_api_m6MWCkR27D3lhenLdTPIKdrXw6gLon08aF9V"
+#     input_data = {
+#         "profileUrls": founderLinks
+#     }
+
+#     logging.info("Sending request to Apify API")
+#     response = requests.post(url, json=input_data)
+
+#     if response.status_code != 200 and response.status_code != 201:
+#         logging.error(f"Error: Received status code {response.status_code}")
+#         return
+
+#     try:
+#         dataset_items = response.json()
+#     except ValueError:
+#         logging.error("Failed to parse JSON response")
+#         logging.debug("Response content: %s", response.text)
+#         return
+
+#     if not isinstance(dataset_items, list):
+#         logging.error("Unexpected data format: %s", dataset_items)
+#         return
+
+#     main_ref = db.reference('/projects')
+#     logging.info("Retrieved main Firebase reference")
+
+#     # Fetch only the project names
+#     existing_projects = main_ref.get(shallow=True) or {}
+#     logging.info("Fetched existing project names from Firebase")
+
+#     project_ids = {}
+#     nameOfProject = ""
+#     batch_data = {}
+
+#     for profile_data in dataset_items:
+#         project_name = projectLink.split("/")[-1].split("#")[0]
+#         logging.info("Processing project: %s", project_name)
+
+#         if project_name in existing_projects:
+#             logging.info("Project %s already exists, skipping...", project_name)
+#             continue
+
+#         try:
+#             profile_id = profile_data['id']
+#         except (KeyError, TypeError):
+#             logging.error("Error processing profile data: %s", profile_data)
+#             continue
+
+#         if project_name in project_ids and profile_id in project_ids[project_name]:
+#             logging.info("Profile %s already exists under project %s, skipping...", profile_id, project_name)
+#             continue
+
+#         if project_name not in batch_data:
+#             batch_data[project_name] = {
+#                 'profiles': {},
+#                 'date': dateOfPosting
+#             }
+
+#         batch_data[project_name]['profiles'][profile_id] = profile_data
+#         logging.info("Prepared profile data for project %s", project_name)
+
+#         if project_name in project_ids:
+#             project_ids[project_name].add(profile_id)
+#         else:
+#             project_ids[project_name] = {profile_id}
+
+#         nameOfProject = project_name
+
+#     # Batch update to Firebase
+#     for project_name, data in batch_data.items():
+#         project_ref = main_ref.child(project_name)
+#         project_ref.set(data)
+#         logging.info("Batch uploaded data for project %s", project_name)
+
+#     logging.info("The project name is %s", nameOfProject)
+#     logging.info("Profiles uploaded successfully to Firebase Realtime Database.")
+def getTheData(projectLink, founderLinks, dateOfPosting):
+    url = "https://api.apify.com/v2/acts/lhotanova~product-hunt-profile-scraper/run-sync-get-dataset-items?token=apify_api_4tIcxm9ONgw41idj9pyG2bU99ChxXp41T1td"
+    input_data = {"profileUrls": founderLinks}
+
+    logging.info("Sending request to Apify API")
+    response = requests.post(url, json=input_data)
+
+    if response.status_code not in (200, 201):
+        logging.error(f"Error: Received status code {response.status_code}")
+        return
+
+    try:
+        dataset_items = response.json()
+    except ValueError:
+        logging.error("Failed to parse JSON response")
+        logging.debug("Response content: %s", response.text)
+        return
+
+    if not isinstance(dataset_items, list):
+        logging.error("Unexpected data format: %s", dataset_items)
+        return
+
+    main_ref = db.reference('/projects')
+    logging.info("Retrieved main Firebase reference")
+
+    project_ids = {}
+    nameOfProject = ""
+    batch_data = {}
+
+    for profile_data in dataset_items:
+        project_name = projectLink.split("/")[-1].split("#")[0]
+        logging.info("Processing project: %s", project_name)
+
+        try:
+            profile_id = profile_data['id']
+        except (KeyError, TypeError):
+            logging.error("Error processing profile data: %s", profile_data)
+            continue
+
+        if project_name not in batch_data:
+            batch_data[project_name] = {
+                'profiles': {},
+                'date': dateOfPosting
+            }
+
+        batch_data[project_name]['profiles'][profile_id] = profile_data
+        logging.info("Prepared profile data for project %s", project_name)
+
+        if project_name in project_ids:
+            project_ids[project_name].add(profile_id)
+        else:
+            project_ids[project_name] = {profile_id}
+
+        nameOfProject = project_name
+
+    # Batch update to Firebase
+    for project_name, data in batch_data.items():
+        project_ref = main_ref.child(project_name)
+        project_ref.set(data)
+        logging.info("Batch uploaded data for project %s", project_name)
+
+    logging.info("The project name is %s", nameOfProject)
+    logging.info("Profiles uploaded successfully to Firebase Realtime Database.")
+
+ 
+
+# Set Chrome options
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-gpu")
@@ -77,42 +241,34 @@ driver.refresh()
 time.sleep(5)
 
 
-driver.set_window_size(1920, 1080)
 
+driver.set_window_size(1920, 1080)
 def scrollDown():
     window_height = driver.execute_script("return window.innerHeight;")
+    
     # Scroll down by 10% of the window height
     scroll_amount = int(window_height * 0.11)
     driver.execute_script(f"window.scrollBy(0, {scroll_amount});")
     print("the window height is", window_height, " And scroll amount is", scroll_amount)
 
-# Firebase initialization functions
-def initScrapper():
-    cred = credentials.Certificate(r"C:\Users\Rihards\Desktop\gothAI\DMResponder\producthuntscraper-firebase-adminsdk-o82so-12e0513927.json")
-    app = firebase_admin.initialize_app(cred, {
-        'databaseURL': 'https://producthuntscraper-default-rtdb.europe-west1.firebasedatabase.app/'
-    })
-    return app
+# Loop to click on each item
 
-def closeConnectionScrapper(app):
-    firebase_admin.delete_app(app)
 
-def getTheData(projectLink, founderLinks, dateOfPosting):    
-    url = "https://api.apify.com/v2/acts/lhotanova~product-hunt-profile-scraper/run-sync-get-dataset-items?token=apify_api_0ivyOVbeaMX1Eza81T2cQWBnEP26hb3iJWGh"
-    input_data = {"profileUrls": founderLinks}
-    response = requests.post(url, json=input_data)
-    dataset_items = response.json()
-    main_ref = db.reference('/projects')
-    project_ref = main_ref.child(projectLink)
-    project_ref.child('date').set(dateOfPosting)
-    
-    for profile_data in dataset_items:
-        profile_id = profile_data['id']
-        profile_ref = project_ref.child(profile_id)
-        profile_ref.set(profile_data)
 
-    print("Profiles uploaded successfully to Firebase Realtime Database.")
-    print(response.text)
+
+time.sleep(5)
+# for i in range(1, 200):
+#     xpath = '//*[@id="__next"]/div/main/div/div[2]/div[' + str(i) + ']/div/div[1]/a[1]/div'
+#     try:
+#         WebDriverWait(driver, 4).until(EC.element_to_be_clickable((By.XPATH, xpath)))
+#         print(i)
+#     except:
+#         print("bad element")
+#     height = driver.execute_script("return document.body.scrollHeight")
+#     print(height)
+
+#     scrollDown()
+#     time.sleep(0.2)
 
 def get_previous_date(day, month, year):
     day -= 1
@@ -148,7 +304,7 @@ while True:
         if howManydaysWithoutProduct > 5:
             break
         height = driver.execute_script("return document.body.scrollHeight")
-        print("We're at ", i, " page height is", height, "day is ", day, ", month is ", month, "and the year is ", year)
+        print("We're at ", i, " page height is", height, "and day is ", day)
         if first == 1:
             time.sleep(5)
             first = 2
@@ -229,3 +385,8 @@ while True:
         time.sleep(1)
 
     day, month, year = get_previous_date(day, month, year)
+        
+            
+    
+
+    
