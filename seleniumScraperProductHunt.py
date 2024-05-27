@@ -1,22 +1,45 @@
-import time
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.keys import Keys
+import time
+
+
+
+
+
+import logging
+
+
+
+
+import requests
+
+
 import firebase_admin
 from firebase_admin import credentials, db
-import requests
+import os
+
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--disable-gpu")
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+
+
 
 chrome_path = "/app/.chrome-for-testing/chrome-linux64/chrome"
 chromedriver_path = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
 
-chrome_options = webdriver.ChromeOptions()
 chrome_options.binary_location = chrome_path
 
 # Initialize Chrome WebDriver with the ChromeDriver path and options
 service = Service(chromedriver_path)
 driver = webdriver.Chrome(service=service, options=chrome_options)
+# Initialize Chrome WebDriver
 
 # Open Google
 driver.get('https://www.producthunt.com')
@@ -47,8 +70,12 @@ for cookie in cookies:
 # Refresh the page to apply the cookies
 driver.refresh()
 
+
+# Navigate to the page
+
 # Pause for initial loading
 time.sleep(5)
+
 
 driver.set_window_size(1920, 1080)
 
