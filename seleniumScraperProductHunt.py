@@ -270,13 +270,13 @@ time.sleep(5)
 #     scrollDown()
 #     time.sleep(0.2)
 
-day = 7
+day = 1
 while True:
     
-    if day == 31:
+    if day == 32:
         break
     time.sleep(3)
-    driver.get('https://www.producthunt.com/leaderboard/daily/2024/4/'+str(day)+'/all')
+    driver.get('https://www.producthunt.com/leaderboard/daily/2024/3/'+str(day)+'/all')
     time.sleep(3)
     
     first = 1
@@ -372,7 +372,7 @@ while True:
                 founderLinks.append("https://www.producthunt.com/"+str(link))
 
 
-        dateOfPosting = str(day)+"/04/2024"
+        dateOfPosting = str(day)+"/03/2024"
 
         if haveWeFoundSomeone == True and len(founderLinks)>0:
 
