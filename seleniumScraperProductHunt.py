@@ -121,7 +121,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 #     logging.info("The project name is %s", nameOfProject)
 #     logging.info("Profiles uploaded successfully to Firebase Realtime Database.")
 def getTheData(projectLink, founderLinks, dateOfPosting):
-    url = "https://api.apify.com/v2/acts/lhotanova~product-hunt-profile-scraper/run-sync-get-dataset-items?token=apify_api_4tIcxm9ONgw41idj9pyG2bU99ChxXp41T1td"
+    url = "https://api.apify.com/v2/acts/lhotanova~product-hunt-profile-scraper/run-sync-get-dataset-items?token=apify_api_32kP54OplgfyV2aKIV9ZsQQecPatQr19pVEA"
     input_data = {"profileUrls": founderLinks}
 
     logging.info("Sending request to Apify API")
@@ -288,7 +288,7 @@ def get_previous_date(day, month, year):
                 day = 28
     return day, month, year
 
-day, month, year = 31, 3, 2024
+day, month, year = 29, 2, 2024
 
 while True:
     if year < 2023 or (year == 2023 and month == 1 and day < 1):
