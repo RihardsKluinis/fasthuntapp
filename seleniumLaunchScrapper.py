@@ -8,7 +8,10 @@ from firebase_admin import credentials, db
 import os
 
 def init_scraper():
-    cred = credentials.Certificate(r"C:\Users\Rihards\Desktop\gothAI\DMResponder\producthuntscraper-firebase-adminsdk-o82so-12e0513927.json")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    # Construct the full path to the credentials file
+    cred_path = os.path.join(base_dir, 'credentials', 'producthuntscraper-firebase-adminsdk-o82so-12e0513927.json')
+    cred = credentials.Certificate(cred_path)
     app = firebase_admin.initialize_app(cred, {
         'databaseURL': 'https://producthuntscraper-default-rtdb.europe-west1.firebasedatabase.app/'
     })
