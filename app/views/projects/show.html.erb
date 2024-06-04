@@ -1,0 +1,13 @@
+<!-- app/views/projects/show.html.erb -->
+<h1><%= @project.name %></h1>
+<p><%= @project.description %></p>
+<p><%= @project.date %></p>
+<img src="<%= @project.image %>" alt="<%= @project.name %>">
+
+<h2>Profiles</h2>
+<% @profiles.each do |profile| %>
+  <div class="profile">
+    <h3><%= profile.name %></h3>
+    <!-- Display other profile details -->
+  </div>
+<% end %>

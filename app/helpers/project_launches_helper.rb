@@ -1,0 +1,2 @@
+module ProjectLaunchesHelper
+end

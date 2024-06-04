@@ -1,0 +1,7 @@
+<!-- app/views/projects/index.html.erb -->
+<% @projects.each do |project| %>
+  <div class="project">
+    <h2><%= link_to project.name, project_path(project) %></h2>
+    <!-- Only display name or other summary details -->
+  </div>
+<% end %>
