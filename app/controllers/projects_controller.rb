@@ -1,9 +1,14 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i[ show edit update destroy ]
+  protect_from_forgery except: [:index]
 
   # GET /projects or /projects.json
   def index
-    @projects = ProjectLaunch.all
+    @projects = ProjectLaunch.order('RANDOM()').paginate(page: params[:page], per_page: 20)
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def show

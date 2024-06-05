@@ -1,0 +1,2 @@
+document.getElementById('projects').innerHTML = "<%= escape_javascript(render(@projects)) %>";
+document.querySelector('.pagination').innerHTML = "<%= escape_javascript(will_paginate(@projects)) %>";
