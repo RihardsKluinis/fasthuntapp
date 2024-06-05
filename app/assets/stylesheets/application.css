@@ -13,3 +13,47 @@
  *= require_tree .
  *= require_self
  */
+
+
+
+
+
+/* retlated to the main database view and looks like this */
+.project {
+    height: 100px;
+    overflow: hidden; /* Ensure content that overflows the fixed height is hidden */
+    transition: height 0.2s ease; /* Smooth transition for height */
+  }
+  
+  .project .media-left .image {
+    height: 60px;
+    width: 60px;
+  }
+  
+  .project .media-left img {
+    height: 60px;
+    width: 60px;
+    object-fit: cover; /* Ensure the image covers the 60x60 area */
+  }
+  
+  .project .media-content .content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .profiles {
+    display: none; /* Initially hidden */
+  }
+  
+  .profiles .media-left .image {
+    height: 60px;
+    width: 60px;
+  }
+  
+  .profiles .media-left img {
+    height: 60px;
+    width: 60px;
+    object-fit: cover;
+  }
+  

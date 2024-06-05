@@ -1,11 +1,12 @@
 <!-- app/views/projects/index.html.erb -->
 
- <% @projects.each do |project| %>
+<section class="section">
+  <div class="container">
     <div id="projects">
-    <%= render "project", project: project %>
-  <% end %>
-</div>
-
-<div class="pagination">
-  <%= will_paginate @projects, renderer: BulmaPaginationRenderer %>
-</div>
+      <%= render partial: "project", collection: @projects, as: :project %>
+    </div>
+    <nav class="pagination" role="navigation" aria-label="pagination">
+      <%= will_paginate @projects, renderer: BulmaPaginationRenderer %>
+    </nav>
+  </div>
+</section>

@@ -4,10 +4,28 @@ document.addEventListener("DOMContentLoaded", function() {
   // Function to handle image click events
   function handleImageClick(event) {
     console.log("Image clicked:", event.target);
-    const profiles = event.target.parentElement.querySelector(".profiles");
+    const project = event.target.closest(".project");
+    const profiles = project.querySelector(".profiles");
     console.log("Profiles element:", profiles);
+    
     if (profiles) {
-      profiles.style.display = (profiles.style.display === "none") ? "block" : "none";
+      if (profiles.style.display === "none" || profiles.style.display === "") {
+        profiles.style.display = "block";
+        const initialHeight = project.offsetHeight;
+        project.style.height = 'auto';
+        const expandedHeight = project.offsetHeight;
+        project.style.height = initialHeight + 'px';
+        setTimeout(() => {
+          project.style.height = expandedHeight + 'px';
+        }, 0);
+      } else {
+        const initialHeight = project.offsetHeight;
+        profiles.style.display = "none";
+        project.style.height = initialHeight + 'px';
+        setTimeout(() => {
+          project.style.height = '100px';
+        }, 0);
+      }
     }
   }
 
@@ -24,6 +42,7 @@ document.addEventListener("DOMContentLoaded", function() {
       console.log("Pagination link clicked");
       event.preventDefault();
       const pageLink = event.target.href;
+      const scrollPosition = window.scrollY;
 
       fetch(pageLink, {
         headers: {
@@ -42,6 +61,8 @@ document.addEventListener("DOMContentLoaded", function() {
         const newPagination = decodedHtml.querySelector('.pagination');
         const currentPagination = document.querySelector('.pagination');
         currentPagination.innerHTML = newPagination.innerHTML;
+
+        window.scrollTo(0, scrollPosition);
       })
       .catch(error => {
         console.error("Fetch error:", error);
