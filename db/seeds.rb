@@ -13,8 +13,10 @@ file = File.read(Rails.root.join('db', 'data', 'projects.json'))
 json_data = JSON.parse(file)
 
 # Iterate over each project
-json_data['projects'].each do |project_id, project_attributes|
+json_data['projects'].each do |key, project_attributes|
   # Access attributes of the project
+  project_id_value = project_attributes['project_id']
+  website = project_attributes['website']
   name = project_attributes['title']
   date = project_attributes['date']
   description = project_attributes['description']
@@ -23,7 +25,14 @@ json_data['projects'].each do |project_id, project_attributes|
   profiles = project_attributes['profiles']
 
   # Create a ProjectLaunch record
-  project_launch = ProjectLaunch.create!(name: name, date: date, description: description, image: image)
+  project_launch = ProjectLaunch.create!(
+                                        name: name,
+                                        date: date,
+                                        description: description,
+                                        image: image,
+                                        website: website,
+                                        project_id: project_id_value # Assign project_id from JSON data directly
+                                        )
 
   # Iterate over profiles if they exist
   if profiles
@@ -35,6 +44,8 @@ json_data['projects'].each do |project_id, project_attributes|
       twitter = profile_data['twitter']
       linkedin = profile_data['linkedin']
       github = profile_data['github']
+      websites = profile_data['websites']
+      instagram = profile_data['instagram']
       
       # Create a Profile record associated with the ProjectLaunch
       Profile.create!(
@@ -44,6 +55,8 @@ json_data['projects'].each do |project_id, project_attributes|
         twitter: twitter,
         linkedin: linkedin,
         github: github,
+        websites: websites,
+        instagram: instagram,
         project_launch: project_launch
       )
     end

@@ -1,9 +1,9 @@
 console.log("projects.js loaded");
 
 document.addEventListener("DOMContentLoaded", function() {
-  // Function to handle image click events
-  function handleImageClick(event) {
-    console.log("Image clicked:", event.target);
+  // Function to handle click events within a project
+  function handleProjectClick(event) {
+    console.log("Project clicked:", event.target);
     const project = event.target.closest(".project");
     const profiles = project.querySelector(".profiles");
     console.log("Profiles element:", profiles);
@@ -23,18 +23,18 @@ document.addEventListener("DOMContentLoaded", function() {
         profiles.style.display = "none";
         project.style.height = initialHeight + 'px';
         setTimeout(() => {
-          project.style.height = '100px';
+          project.style.height = '100px'; // Adjust this value to the desired collapsed height
         }, 0);
       }
     }
   }
 
-  // Attach event delegation for project images
-  document.addEventListener("click", function(event) {
-    if (event.target.matches(".project img")) {
-      handleImageClick(event);
-    }
-  });
+  // Attach event delegation for project elements
+    document.addEventListener("click", function(event) {
+      if (event.target.closest(".project")) {
+        handleProjectClick(event);
+      }
+    });
 
   // Function to handle pagination link clicks
   function handlePaginationClick(event) {

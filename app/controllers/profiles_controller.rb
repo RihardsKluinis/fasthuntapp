@@ -65,6 +65,6 @@ class ProfilesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def profile_params
-      params.require(:profile).permit(:name, :twitter, :github, :linkedin)
+      params.require(:profile).permit(:name, :twitter, :github, :linkedin, :websites, :instagram, :avatar_url, :username, :project_launch_id)
     end
 end

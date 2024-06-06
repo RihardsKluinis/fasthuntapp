@@ -1,5 +1,3 @@
-<!-- app/views/projects/_project.html.erb -->
-
 <div class="box project" style="height: 100px;">
   <article class="media">
     <div class="media-left">
@@ -9,17 +7,50 @@
     </div>
     <div class="media-content">
       <div class="content">
-        <h2 class="title is-5"><%= link_to project.name, project_path(project) %></h2>
+        <h2 class="title is-5"><%= project.name%></h2>
+
+        <nav class="level is-mobile">
+          <div class="level-left">
+            <% displayed_social_media = [] %>
+            <!-- Iterate over profiles and collect unique social media platforms -->
+            <% project.profiles.each do |profile| %>
+              <% displayed_social_media << :twitter if profile.twitter.present? %>
+              <% displayed_social_media << :github if profile.github.present? %>
+              <% displayed_social_media << :linkedin if profile.linkedin.present? %>
+              <% displayed_social_media << :website if profile.websites.present? %>
+              <% displayed_social_media << :instagram if profile.instagram.present? %>
+            <% end %>
+            <!-- Display social media icons -->
+            <% displayed_social_media.uniq.each do |platform| %>
+              <% icon_class = case platform
+                              when :twitter then "fab fa-twitter"
+                              when :github then "fab fa-github"
+                              when :linkedin then "fab fa-linkedin"
+                              when :website then "fas fa-globe"
+                              when :instagram then "fab fa-instagram"
+                              end %>
+              <i class="<%= icon_class %>"></i>
+            <% end %>
+            <% if displayed_social_media.empty? %>
+              <i class="far fa-smile placeholder-icon" style="visibility: hidden;"></i>
+            <% end %>
+          </div>
+        </nav>
         <p class="is-size-7"><%= project.description %></p>
+        
+        <p class="is-size-7">
+          Product Hunt page: 
+          <a href="<%= 'https://www.producthunt.com/products/' + project.project_id + '/launches' %>">
+            <i class="fab fa-product-hunt fa-lg"></i>
+          </a>
+          Products Website: 
+          <a href="<%= project.website %>">
+            <i class="fas fa-globe fa-lg"></i>
+          </a>
+        </p>
         <time datetime="<%= project.date %>" class="is-size-7"><%= project.date %></time>
       </div>
-      <nav class="level is-mobile">
-        <div class="level-left">
-          <a class="level-item" href="#"><i class="fab fa-facebook"></i></a>
-          <a class="level-item" href="#"><i class="fab fa-twitter"></i></a>
-          <a class="level-item" href="#"><i class="fab fa-linkedin"></i></a>
-        </div>
-      </nav>
+      
       <div class="profiles" style="display: none;">
         <% project.profiles.each do |profile| %>
           <div class="media">
@@ -31,9 +62,29 @@
             <div class="media-content">
               <p class="title is-5"><%= profile.name %></p>
               <p class="subtitle is-6">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <% if profile.twitter.present? %>
+                  <a href="<%= profile.twitter %>"><i class="fab fa-twitter"></i></a>
+                <% end %>
+                <% if profile.github.present? %>
+                  <a href="<%= profile.github %>"><i class="fab fa-github"></i></a>
+                <% end %>
+                <% if profile.linkedin.present? %>
+                  <a href="<%= profile.linkedin %>"><i class="fab fa-linkedin"></i></a>
+                <% end %>
+                <% if profile.websites.present? %>
+                <% websites = profile.websites.gsub(/\[|\]/, '').split(',').map(&:strip) %>
+                <% websites.each_with_index do |website, index| %>
+                  <a href="<%= website.gsub(/['"]/, '').strip %>" target="_blank">
+                    <i class="fas fa-globe"></i>
+                    <% if websites.size > 1 %>
+                      <sup><%= index + 1 %></sup>
+                    <% end %>
+                  </a>
+                <% end %>
+              <% end %>
+                <% if profile.instagram.present? %>
+                  <a href="<%= profile.instagram %>"><i class="fab fa-instagram"></i></a>
+                <% end %>
               </p>
             </div>
           </div>
@@ -42,3 +93,4 @@
     </div>
   </article>
 </div>
+

@@ -57,3 +57,10 @@
     object-fit: cover;
   }
   
+  .title:not(:last-child){
+    margin-bottom: 0.8%;
+  }
+  .level:not(:last-child){
+    margin-bottom:0.8%;
+  }
+ 
