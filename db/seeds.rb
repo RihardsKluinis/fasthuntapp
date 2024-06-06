@@ -46,6 +46,7 @@ json_data['projects'].each do |key, project_attributes|
       github = profile_data['github']
       websites = profile_data['websites']
       instagram = profile_data['instagram']
+      url = profile_data['url']
       
       # Create a Profile record associated with the ProjectLaunch
       Profile.create!(
@@ -57,7 +58,8 @@ json_data['projects'].each do |key, project_attributes|
         github: github,
         websites: websites,
         instagram: instagram,
-        project_launch: project_launch
+        project_launch: project_launch,
+        url: url
       )
     end
   end
