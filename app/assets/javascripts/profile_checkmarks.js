@@ -1,7 +1,7 @@
 
-
 $(document).ready(function() {
-  $('.profile-checkmark').change(function() {
+  // Attach event listener to a parent element and delegate it to '.profile-checkmark' elements
+  $('#projects').on('change', '.profile-checkmark', function() {
     var profileId = $(this).data('profile-id');
     var checked = $(this).is(':checked');
     var url = '/checkmarks';
@@ -15,7 +15,6 @@ $(document).ready(function() {
           checked: checked
         },
         authenticity_token: $('meta[name="csrf-token"]').attr('content')
-        
       },
       success: function(data) {
         console.log('Checkmark updated successfully.');

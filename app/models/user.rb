@@ -5,6 +5,9 @@ class User < ApplicationRecord
     has_many :checkmarks, dependent: :destroy
     has_many :checked_profiles, through: :checkmarks, source: :profile
 
+    has_many :project_checkmarks
+    has_many :project_launches, through: :project_checkmarks
+
     devise :database_authenticatable, :registerable,
            :recoverable, :rememberable, :validatable,
            :omniauthable, omniauth_providers: [:google_oauth2, :github]
