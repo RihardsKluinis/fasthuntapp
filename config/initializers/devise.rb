@@ -18,9 +18,9 @@ Devise.setup do |config|
 
 
     #config.omniauth :github, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_CLIENT_SECRET'], scope: 'user,public_repo'
-    config.omniauth :github, 'Ov23li7X2ZrQZXGLolLt', 'b637b95cdbec8cd764068b18bf9c506b817c0af4', scope: 'user,public_repo'
+    config.omniauth :github, ENV['GITHUB_CLIENT_ID']'Ov23li7X2ZrQZXGLolLt', ENV['GITHUB_CLIENT_SECRET']'b637b95cdbec8cd764068b18bf9c506b817c0af4', scope: 'user,public_repo'
 
-    config.omniauth :google_oauth2, '871004138248-tds28o3351kg28l55ksmvpncajfobk3p.apps.googleusercontent.com', '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', {
+    config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET'], {
 
         }
 

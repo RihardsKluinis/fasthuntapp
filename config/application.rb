@@ -18,7 +18,7 @@ module FasthuntWebsite
     config.autoload_lib(ignore: %w(assets tasks))
 
     config.middleware.use OmniAuth::Builder do
-      provider :google_oauth2, '871004138248-tds28o3351kg28l55ksmvpncajfobk3p.apps.googleusercontent.com', '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', {
+      provider :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET'], {
         scope: 'email,profile',
         prompt: 'select_account'
       }
