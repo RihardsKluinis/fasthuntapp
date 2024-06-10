@@ -1,8 +1,5 @@
 class Profile < ApplicationRecord
     belongs_to :project_launch
-  end
-  
-  # app/models/project_launch.rb
-  class ProjectLaunch < ApplicationRecord
-    has_many :profiles
-  end
+    has_many :checkmarks, dependent: :destroy
+    has_many :checked_by_users, through: :checkmarks, source: :user
+end

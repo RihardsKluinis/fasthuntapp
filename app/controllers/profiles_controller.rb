@@ -8,6 +8,19 @@ class ProfilesController < ApplicationController
 
   # GET /profiles/1 or /profiles/1.json
   def show
+    @project = ProjectLaunch.find(params[:id])
+    @profiles = @project.profiles
+    logger.info("Value of @profiles: #{@profiles.inspect}")
+  
+  
+    # Add logging
+
+  
+    # Respond to HTML and JSON formats
+    respond_to do |format|
+      format.html # Render the HTML view for the profile
+      format.json { render json: @profile } # Render JSON representation of the profile data
+    end
   end
 
   # GET /profiles/new

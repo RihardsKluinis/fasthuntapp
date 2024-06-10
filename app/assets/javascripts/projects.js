@@ -3,31 +3,34 @@ console.log("projects.js loaded");
 document.addEventListener("DOMContentLoaded", function() {
   // Function to handle click events within a project
   function handleProjectClick(event) {
-    console.log("Project clicked:", event.target);
-    const project = event.target.closest(".project");
-    const profiles = project.querySelector(".profiles");
-    console.log("Profiles element:", profiles);
-    
-    if (profiles) {
-      if (profiles.style.display === "none" || profiles.style.display === "") {
-        profiles.style.display = "block";
-        const initialHeight = project.offsetHeight;
-        project.style.height = 'auto';
-        const expandedHeight = project.offsetHeight;
-        project.style.height = initialHeight + 'px';
-        setTimeout(() => {
-          project.style.height = expandedHeight + 'px';
-        }, 0);
-      } else {
-        const initialHeight = project.offsetHeight;
-        profiles.style.display = "none";
-        project.style.height = initialHeight + 'px';
-        setTimeout(() => {
-          project.style.height = '100px'; // Adjust this value to the desired collapsed height
-        }, 0);
+    if (event.target.tagName === 'IMG') {
+      console.log("Image clicked:", event.target);
+      const project = event.target.closest(".project");
+      const profiles = project.querySelector(".profiles");
+      console.log("Profiles element:", profiles);
+      
+      if (profiles) {
+        if (profiles.style.display === "none" || profiles.style.display === "") {
+          profiles.style.display = "block";
+          const initialHeight = project.offsetHeight;
+          project.style.height = 'auto';
+          const expandedHeight = project.offsetHeight;
+          project.style.height = initialHeight + 'px';
+          setTimeout(() => {
+            project.style.height = expandedHeight + 'px';
+          }, 0);
+        } else {
+          const initialHeight = project.offsetHeight;
+          profiles.style.display = "none";
+          project.style.height = initialHeight + 'px';
+          setTimeout(() => {
+            project.style.height = '100px'; // Adjust this value to the desired collapsed height
+          }, 0);
+        }
       }
     }
   }
+  
 
   // Attach event delegation for project elements
     document.addEventListener("click", function(event) {

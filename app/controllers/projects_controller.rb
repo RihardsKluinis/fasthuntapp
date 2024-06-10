@@ -1,10 +1,14 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, only: %i[ show edit update destroy ]
+  before_action :set_project, :authenticate_user!, only: %i[ show edit update destroy ]
   protect_from_forgery except: [:index]
 
   # GET /projects or /projects.json
   def index
-    @projects = ProjectLaunch.order('RANDOM()').paginate(page: params[:page], per_page: 20)
+    #@projects = ProjectLaunch.order('RANDOM()').paginate(page: params[:page], per_page: 20)
+
+    @projects = ProjectLaunch.paginate(page: params[:page], per_page: 20)
+    # Duplicate the projects 20 times
+    Rails.logger.info("Current User XXXXXXXXXXXX #{current_user.id}")
     respond_to do |format|
       format.html
       format.js
@@ -14,6 +18,8 @@ class ProjectsController < ApplicationController
   def show
     @project = ProjectLaunch.find(params[:id])
     @profiles = @project.profiles
+    @current_user = current_user
+    
   end
 
   # GET /projects/new

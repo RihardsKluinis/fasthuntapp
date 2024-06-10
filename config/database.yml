@@ -1,29 +1,41 @@
-
 default: &default
   adapter: postgresql
   encoding: unicode
-  # For details on connection pooling, see Rails configuration guide
-  # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: rihards
   password: rihards
 
-
 development:
-  <<: *default
-  database: fasthunt_website_development
-  username: rihards
-  password: rihards
+  primary:
+    <<: *default
+    database: fasthunt_website_development
+    username: rihards
+    password: rihards
 
+  users:
+    <<: *default
+    database: fasthunt_users_development
+    username: rihards
+    password: rihards
 
 test:
-  <<: *default
-  database: fasthunt_website_test
+  primary:
+    <<: *default
+    database: fasthunt_website_test
 
-
+  users:
+    <<: *default
+    database: fasthunt_users_test
 
 production:
-  <<: *default
-  database: fasthunt_website_production
-  username: fasthunt_website
-  password: <%= ENV["FASTHUNT_WEBSITE_DATABASE_PASSWORD"] %>
+  primary:
+    <<: *default
+    database: fasthunt_website_production
+    username: fasthunt_website
+    password: <%= ENV["FASTHUNT_WEBSITE_DATABASE_PASSWORD"] %>
+
+  users:
+    <<: *default
+    database: fasthunt_users_production
+    username: fasthunt_users
+    password: <%= ENV["FASTHUNT_USERS_DATABASE_PASSWORD"] %>

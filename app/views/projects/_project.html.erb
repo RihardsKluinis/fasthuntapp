@@ -7,7 +7,12 @@
     </div>
     <div class="media-content">
       <div class="content">
-        <h2 class="title is-5"><%= project.name%></h2>
+      <h2 class="title is-5">
+        <%= project.name %>
+        
+        <input type="checkbox" class="project-checkmark" data-project-id="<%= project.id %>" 
+            <%= 'checked' if @profiles&.all? { |profile| @current_user.checkmarks.exists?(profile: profile, checked: true) } %> />
+        </h2>
 
         <nav class="level is-mobile">
           <div class="level-left">
@@ -51,7 +56,7 @@
         <time datetime="<%= project.date %>" class="is-size-7"><%= project.date %></time>
       </div>
       
-      <div class="profiles" style="display: none;">
+      <div class="profiles">
         <% project.profiles.each do |profile| %>
           <div class="media">
             <div class="media-left">
@@ -62,8 +67,26 @@
             <div class="media-content">
               <p class="title is-5"><%= profile.name %></p>
               <p class="subtitle is-6">
+              <% if current_user %>
+                <% if current_user.checkmarks %>
+                    <% logger.info("Current user has checkmarks") %>
+                    <input type="checkbox" class="profile-checkmark" data-profile-id="<%= profile.id %>"
+                        <% if current_user.checkmarks.exists?(profile: profile, checked: true) %>
+                            checked="checked"
+                        <% end %>
+                        />
+                <% else %>
+                    <p>No checkmarks found for user</p>
+                    <input type="checkbox" class="profile-checkmark" data-profile-id="<%= profile.id %>" />
+                <% end %>
+                <% else %>
+                <% logger.info("No current user logged in") %>
+                <p>Please log in to check profiles</p>
+                <% end %>
+
+
                 <a href="<%= profile.url %>">
-                    <i class="fab fa-product-hunt"></i>
+                <i class="fab fa-product-hunt"></i>
                 </a>
                 <% if profile.twitter.present? %>
                   <a href="<%= profile.twitter %>"><i class="fab fa-twitter"></i></a>
@@ -89,15 +112,10 @@
                   <a href="<%= profile.instagram %>"><i class="fab fa-instagram"></i></a>
                 <% end %>
               </p>
-              <p class="is-size-7">
-
-          </p>
             </div>
-
           </div>
         <% end %>
       </div>
     </div>
   </article>
 </div>
-

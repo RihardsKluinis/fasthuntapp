@@ -3,6 +3,15 @@ source "https://rubygems.org"
 ruby "3.3.1"
 
 gem 'will_paginate', '~> 3.3'
+gem 'omniauth-oauth'
+gem 'omniauth-google-oauth2'
+gem 'devise' 
+gem 'omniauth-rails_csrf_protection'
+gem 'dotenv-rails'
+
+gem 'omniauth-github'
+
+gem 'dotenv-rails', groups: [:development, :test]
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.3", ">= 7.1.3.3"
