@@ -11,8 +11,6 @@ $(document).ready(function() {
       method = 'PATCH';
     }
 
-    console.log('Profile ID:', profileId);
-    
     $.ajax({
       url: url,
       type: method,
@@ -26,13 +24,31 @@ $(document).ready(function() {
       success: function(data) {
         console.log('Checkmark updated successfully.');
         if (method === 'POST') {
-          // Update the data-checkmark-id attribute with the new checkmark ID
           $('.profile-checkmark[data-profile-id="' + profileId + '"]').data('checkmark-id', data.id);
         }
+        updateProjectCheckmark(profileId);
       },
       error: function(data) {
         console.log('Error updating checkmark.');
       }
     });
   });
+
+  function updateProjectCheckmark(profileId) {
+    var projectId = $('.profile-checkmark[data-profile-id="' + profileId + '"]').data('project-id');
+    var allChecked = true;
+
+    $('.profile-checkmark[data-project-id="' + projectId + '"]').each(function() {
+      if (!$(this).is(':checked')) {
+        allChecked = false;
+      }
+    });
+
+    var projectCheckmark = $('.project-checkmark[data-project-id="' + projectId + '"]');
+    if (allChecked) {
+      projectCheckmark.prop('checked', true);
+    } else {
+      projectCheckmark.prop('checked', false);
+    }
+  }
 });

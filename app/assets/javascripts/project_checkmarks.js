@@ -1,13 +1,13 @@
 $(document).ready(function() {
-  // Attach event listener to a parent element and delegate it to '.project-checkmark' elements
   $('#projects').on('change', '.project-checkmark', function() {
     var projectId = $(this).data('project-id');
     var checked = $(this).is(':checked');
-    var url = '/project_checkmarks'; // Adjust the URL endpoint for project checkmarks
-    console.log('Project ID:', projectId); 
+    var url = '/project_checkmarks';
+    var method = checked ? 'POST' : 'PATCH';
+
     $.ajax({
       url: url,
-      type: checked ? 'POST' : 'PATCH', // Use POST for creating new checkmarks and PATCH for updating existing ones
+      type: method,
       data: {
         project_checkmark: {
           project_id: projectId,
@@ -17,10 +17,17 @@ $(document).ready(function() {
       },
       success: function(data) {
         console.log('Project checkmark updated successfully.');
+        updateProfileCheckmarks(projectId, checked);
       },
       error: function(data) {
         console.log('Error updating project checkmark.');
       }
     });
   });
+
+  function updateProfileCheckmarks(projectId, checked) {
+    $('#projects .profile-checkmark[data-project-id="' + projectId + '"]').each(function() {
+      $(this).prop('checked', checked);
+    });
+  }
 });

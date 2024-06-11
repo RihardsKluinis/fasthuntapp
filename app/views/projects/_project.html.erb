@@ -7,25 +7,17 @@
     </div>
     <div class="media-content">
       <div class="content">
-      <h2 class="title is-5">
-        <%= project.name %>
-        
-        <input type="checkbox" class="project-checkmark" data-project-id="<%= project.id %>" 
-        <% if current_user&.project_checkmarks&.exists?(project_id: project.id, checked: true) %>
-            checked="checked"
-        <% end %>
-        />
+        <h2 class="title is-5">
+          <%= project.name %>
+          <input type="checkbox" class="project-checkmark" data-project-id="<%= project.id %>" 
+          <% if current_user&.project_checkmarks&.exists?(project_id: project.id, checked: true) %>
+              checked="checked"
+          <% end %>
+          />
         </h2>
-
-
-        
-
-
-
         <nav class="level is-mobile">
           <div class="level-left">
             <% displayed_social_media = [] %>
-            <!-- Iterate over profiles and collect unique social media platforms -->
             <% project.profiles.each do |profile| %>
               <% displayed_social_media << :twitter if profile.twitter.present? %>
               <% displayed_social_media << :github if profile.github.present? %>
@@ -33,7 +25,6 @@
               <% displayed_social_media << :website if profile.websites.present? %>
               <% displayed_social_media << :instagram if profile.instagram.present? %>
             <% end %>
-            <!-- Display social media icons -->
             <% displayed_social_media.uniq.each do |platform| %>
               <% icon_class = case platform
                               when :twitter then "fab fa-twitter"
@@ -50,7 +41,6 @@
           </div>
         </nav>
         <p class="is-size-7"><%= project.description %></p>
-        
         <p class="is-size-7">
           Product Hunt page: 
           <a href="<%= 'https://www.producthunt.com/products/' + project.project_id + '/launches' %>">
@@ -63,7 +53,6 @@
         </p>
         <time datetime="<%= project.date %>" class="is-size-7"><%= project.date %></time>
       </div>
-      
       <div class="profiles">
         <% project.profiles.each do |profile| %>
           <div class="media">
@@ -75,26 +64,17 @@
             <div class="media-content">
               <p class="title is-5"><%= profile.name %></p>
               <p class="subtitle is-6">
-              <% if current_user %>
-                <% if current_user.checkmarks %>
-                    <% logger.info("Current user has checkmarks") %>
-                    <input type="checkbox" class="profile-checkmark" data-profile-id="<%= profile.id %>"
-                        <% if current_user.checkmarks.exists?(profile: profile, checked: true) %>
-                            checked="checked"
-                        <% end %>
-                        />
+                <% if current_user %>
+                  <input type="checkbox" class="profile-checkmark" data-profile-id="<%= profile.id %>" data-project-id="<%= profile.project_launch.id %>" 
+                  <% if current_user.checkmarks.exists?(profile: profile, checked: true) %>
+                      checked="checked"
+                  <% end %>
+                  />
                 <% else %>
-                    <p>No checkmarks found for user</p>
-                    <input type="checkbox" class="profile-checkmark" data-profile-id="<%= profile.id %>" />
+                  <p>Please log in to check profiles</p>
                 <% end %>
-                <% else %>
-                <% logger.info("No current user logged in") %>
-                <p>Please log in to check profiles</p>
-                <% end %>
-
-
                 <a href="<%= profile.url %>">
-                <i class="fab fa-product-hunt"></i>
+                  <i class="fab fa-product-hunt"></i>
                 </a>
                 <% if profile.twitter.present? %>
                   <a href="<%= profile.twitter %>"><i class="fab fa-twitter"></i></a>
@@ -106,16 +86,8 @@
                   <a href="<%= profile.linkedin %>"><i class="fab fa-linkedin"></i></a>
                 <% end %>
                 <% if profile.websites.present? %>
-                <% websites = profile.websites.gsub(/\[|\]/, '').split(',').map(&:strip) %>
-                <% websites.each_with_index do |website, index| %>
-                  <a href="<%= website.gsub(/['"]/, '').strip %>" target="_blank">
-                    <i class="fas fa-globe"></i>
-                    <% if websites.size > 1 %>
-                      <sup><%= index + 1 %></sup>
-                    <% end %>
-                  </a>
+                  <a href="<%= profile.websites.first %>"><i class="fas fa-globe"></i></a>
                 <% end %>
-              <% end %>
                 <% if profile.instagram.present? %>
                   <a href="<%= profile.instagram %>"><i class="fab fa-instagram"></i></a>
                 <% end %>

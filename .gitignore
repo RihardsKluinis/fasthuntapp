@@ -38,3 +38,4 @@
 /config/application.rb
 /config/initializers/devise.rb
 /log/development.log.0
+/log/development
