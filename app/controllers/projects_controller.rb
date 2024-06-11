@@ -8,7 +8,7 @@ class ProjectsController < ApplicationController
 
     @projects = ProjectLaunch.paginate(page: params[:page], per_page: 20)
     # Duplicate the projects 20 times
-    Rails.logger.info("Current User XXXXXXXXXXXX #{current_user.id}")
+    
     respond_to do |format|
       format.html
       format.js

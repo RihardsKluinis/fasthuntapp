@@ -1,14 +1,21 @@
-
 $(document).ready(function() {
-  // Attach event listener to a parent element and delegate it to '.profile-checkmark' elements
   $('#projects').on('change', '.profile-checkmark', function() {
     var profileId = $(this).data('profile-id');
     var checked = $(this).is(':checked');
     var url = '/checkmarks';
-    console.log('Profile ID:', profileId); 
+    var method = 'POST';
+    var checkmarkId = $(this).data('checkmark-id');
+
+    if (checkmarkId) {
+      url += '/' + checkmarkId;
+      method = 'PATCH';
+    }
+
+    console.log('Profile ID:', profileId);
+    
     $.ajax({
       url: url,
-      type: 'POST',
+      type: method,
       data: {
         checkmark: {
           profile_id: profileId,
@@ -18,6 +25,10 @@ $(document).ready(function() {
       },
       success: function(data) {
         console.log('Checkmark updated successfully.');
+        if (method === 'POST') {
+          // Update the data-checkmark-id attribute with the new checkmark ID
+          $('.profile-checkmark[data-profile-id="' + profileId + '"]').data('checkmark-id', data.id);
+        }
       },
       error: function(data) {
         console.log('Error updating checkmark.');
