@@ -1,0 +1,5 @@
+<input type="checkbox" class="project-checkmark" data-project-id="<%= project.id %>" 
+<% if current_user&.project_checkmarks&.exists?(project_id: project.id, checked: true) %>
+    checked="checked"
+<% end %>
+/>

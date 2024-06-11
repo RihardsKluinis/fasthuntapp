@@ -9,11 +9,7 @@
       <div class="content">
         <h2 class="title is-5">
           <%= project.name %>
-          <input type="checkbox" class="project-checkmark" data-project-id="<%= project.id %>" 
-          <% if current_user&.project_checkmarks&.exists?(project_id: project.id, checked: true) %>
-              checked="checked"
-          <% end %>
-          />
+          <%= render partial: 'project_checkmarks/project_checkmarks', locals: { project: project } %>
         </h2>
         <nav class="level is-mobile">
           <div class="level-left">
@@ -64,15 +60,7 @@
             <div class="media-content">
               <p class="title is-5"><%= profile.name %></p>
               <p class="subtitle is-6">
-                <% if current_user %>
-                  <input type="checkbox" class="profile-checkmark" data-profile-id="<%= profile.id %>" data-project-id="<%= profile.project_launch.id %>" 
-                  <% if current_user.checkmarks.exists?(profile: profile, checked: true) %>
-                      checked="checked"
-                  <% end %>
-                  />
-                <% else %>
-                  <p>Please log in to check profiles</p>
-                <% end %>
+              <%= render partial: 'checkmarks/checkmarks', locals: { profile: profile } %>
                 <a href="<%= profile.url %>">
                   <i class="fab fa-product-hunt"></i>
                 </a>

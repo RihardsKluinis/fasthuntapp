@@ -1,0 +1,9 @@
+<% if current_user %>
+  <input type="checkbox" class="profile-checkmark" data-profile-id="<%= profile.id %>" data-project-id="<%= profile.project_launch.id %>" 
+  <% if current_user.checkmarks.exists?(profile: profile, checked: true) %>
+      checked="checked"
+  <% end %>
+  />
+<% else %>
+  <p>Please log in to check profiles</p>
+<% end %>
