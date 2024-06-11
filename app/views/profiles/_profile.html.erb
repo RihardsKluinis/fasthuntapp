@@ -1,22 +1,36 @@
-<div id="<%= dom_id profile %>">
-  <p>
-    <strong>Name:</strong>
-    <%= profile.name %>
-  </p>
-
-  <p>
-    <strong>Twitter:</strong>
-    <%= profile.twitter %>
-  </p>
-
-  <p>
-    <strong>Github:</strong>
-    <%= profile.github %>
-  </p>
-
-  <p>
-    <strong>Linkedin:</strong>
-    <%= profile.linkedin %>
-  </p>
-
+<div class="profiles">
+  <% project.profiles.each do |profile| %>
+    <div class="media">
+      <div class="media-left">
+        <figure class="image is-60x60">
+          <img src="<%= profile.avatar_url %>" alt="<%= profile.name %>" style="height: 60px; width: 60px;">
+        </figure>
+      </div>
+      <div class="media-content">
+        <p class="title is-5"><%= profile.name %></p>
+        <p class="subtitle is-6">
+          
+          <a href="<%= profile.url %>">
+            <i class="fab fa-product-hunt"></i>
+          </a>
+          <% if profile.twitter.present? %>
+            <a href="<%= profile.twitter %>"><i class="fab fa-twitter"></i></a>
+          <% end %>
+          <% if profile.github.present? %>
+            <a href="<%= profile.github %>"><i class="fab fa-github"></i></a>
+          <% end %>
+          <% if profile.linkedin.present? %>
+            <a href="<%= profile.linkedin %>"><i class="fab fa-linkedin"></i></a>
+          <% end %>
+          <% if profile.websites.present? %>
+            <a href="<%= profile.websites.first %>"><i class="fas fa-globe"></i></a>
+          <% end %>
+          <% if profile.instagram.present? %>
+            <a href="<%= profile.instagram %>"><i class="fab fa-instagram"></i></a>
+          <% end %>
+        </p>
+        <%= render partial: 'checkmarks/checkmarks', locals: { profile: profile } %>
+      </div>
+    </div>
+  <% end %>
 </div>

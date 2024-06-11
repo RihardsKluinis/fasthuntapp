@@ -12,10 +12,12 @@
 
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
   <%= javascript_include_tag 'projects' %>
-  <%= javascript_include_tag 'application', 'data-turbo-track': 'reload' %>
+
   <%= javascript_include_tag 'profile_checkmarks' %>
   <%= javascript_include_tag 'project_checkmarks' %>
+
   <%= javascript_include_tag 'combined_checkmarks' %>
+
   
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
@@ -28,7 +30,8 @@
 
 
         <% if user_signed_in? %>
-        <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
+        <%= button_to "Log out", destroy_user_session_path, method: :delete, data: { turbo: false } %>
+
       <% else %>
       <%= link_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path, method: :post, data: { disable_with: '<i class="fa fa-spinner fa-spin" />'}%>
       <%= link_to "Sign in with GitHub", user_github_omniauth_authorize_path, method: :post %>

@@ -1,2 +1,5 @@
 document.getElementById('projects').innerHTML = "<%= escape_javascript(render(@projects)) %>";
 document.querySelector('.pagination').innerHTML = "<%= escape_javascript(will_paginate(@projects)) %>";
+
+$('#projects').html("<%= j render partial: 'project', collection: @projects, as: :project %>");
+$('.pagination').html("<%= j will_paginate @projects, renderer: BulmaPaginationRenderer %>");

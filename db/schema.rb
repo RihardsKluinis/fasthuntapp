@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_10_211148) do
+
+ActiveRecord::Schema[7.1].define(version: 2024_06_10_202306) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,11 +44,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_10_211148) do
 
   create_table "project_checkmarks", force: :cascade do |t|
     t.bigint "user_id", null: false
+
     t.bigint "project_id", null: false
     t.boolean "checked", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["project_id"], name: "index_project_checkmarks_on_project_id"
+
     t.index ["user_id"], name: "index_project_checkmarks_on_user_id"
   end
 
@@ -84,6 +88,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_10_211148) do
   add_foreign_key "checkmarks", "profiles"
   add_foreign_key "checkmarks", "users"
   add_foreign_key "profiles", "project_launches"
+
   add_foreign_key "project_checkmarks", "project_launches", column: "project_id"
+
+
   add_foreign_key "project_checkmarks", "users"
 end

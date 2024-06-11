@@ -1,7 +1,66 @@
 <!-- app/views/projects/index.html.erb -->
 
+<!-- app/views/projects/index.html.erb -->
+
 <section class="section">
   <div class="container">
+    <%= form_with url: projects_path, method: :get, local: true do %>
+      <div class="field">
+        <label class="label">Social Media</label>
+        <div class="control">
+          <label class="checkbox">
+            <%= check_box_tag 'social_medias[]', 'twitter', params[:social_medias]&.include?('twitter') %>
+            Twitter
+          </label>
+          <label class="checkbox">
+            <%= check_box_tag 'social_medias[]', 'websites', params[:social_medias]&.include?('websites') %>
+            Personal Website
+          </label>
+          <label class="checkbox">
+            <%= check_box_tag 'social_medias[]', 'instagram', params[:social_medias]&.include?('instagram') %>
+            Instagram
+          </label>
+          <label class="checkbox">
+            <%= check_box_tag 'social_medias[]', 'github', params[:social_medias]&.include?('github') %>
+            GitHub
+          </label>
+          <label class="checkbox">
+            <%= check_box_tag 'social_medias[]', 'linkedin', params[:social_medias]&.include?('linkedin') %>
+            LinkedIn
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label" for="start_date">Start Date</label>
+        <div class="control">
+          <%= date_field_tag :start_date, params[:start_date], class: 'input' %>
+        </div>
+      </div>
+      
+      <div class="field">
+        <label class="label" for="end_date">End Date</label>
+        <div class="control">
+          <%= date_field_tag :end_date, params[:end_date], class: 'input' %>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label" for="checkmark_status">Checkmark Status</label>
+        <div class="control">
+          <div class="select">
+            <%= select_tag :checkmark_status, options_for_select([['Any', ''], ['Verified', 'true'], ['Not Verified', 'false']], params[:checkmark_status]), class: 'input' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <%= submit_tag 'Filter', class: 'button is-primary' %>
+        </div>
+      </div>
+    <% end %>
+
     <div id="projects">
       <%= render partial: "project", collection: @projects, as: :project %>
     </div>

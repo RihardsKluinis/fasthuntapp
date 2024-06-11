@@ -3,12 +3,44 @@ class ProjectsController < ApplicationController
   protect_from_forgery except: [:index]
 
   # GET /projects or /projects.json
+
   def index
     #@projects = ProjectLaunch.order('RANDOM()').paginate(page: params[:page], per_page: 20)
-
     @projects = ProjectLaunch.paginate(page: params[:page], per_page: 20)
-    # Duplicate the projects 20 times
-    
+
+    if params[:social_medias].present?
+      social_media_columns = {
+        'twitter' => 'twitter',
+        'websites' => 'websites',
+        'instagram' => 'instagram',
+        'github' => 'github',
+        'linkedin' => 'linkedin'
+      }
+
+      params[:social_medias].each do |social_media|
+        column = social_media_columns[social_media]
+        @projects = @projects.joins(:profiles).where.not(profiles: { column => [nil, ''] }) if column
+      end
+    end
+
+    if params[:start_date].present? && params[:end_date].present?
+      @projects = @projects.where(date: params[:start_date]..params[:end_date])
+    elsif params[:start_date].present?
+      @projects = @projects.where('date >= ?', params[:start_date])
+    elsif params[:end_date].present?
+      @projects = @projects.where('date <= ?', params[:end_date])
+    end
+
+    if params[:checkmark_status].present?
+      if params[:checkmark_status] == 'true'
+        @projects = @projects.joins(:project_checkmarks).distinct
+      elsif params[:checkmark_status] == 'false'
+        @projects = @projects.left_joins(:project_checkmarks).where(project_checkmarks: { id: nil })
+      end
+    end
+
+    @projects = @projects.paginate(page: params[:page], per_page: 20)
+
     respond_to do |format|
       format.html
       format.js

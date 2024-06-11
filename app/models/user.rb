@@ -2,6 +2,7 @@
 class User < ApplicationRecord
     # Include default devise modules. Others available are:
     # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+
     has_many :checkmarks, dependent: :destroy
     has_many :checked_profiles, through: :checkmarks, source: :profile
 
@@ -11,6 +12,13 @@ class User < ApplicationRecord
     devise :database_authenticatable, :registerable,
            :recoverable, :rememberable, :validatable,
            :omniauthable, omniauth_providers: [:google_oauth2, :github]
+  
+    # Associations
+    has_many :checkmarks, dependent: :destroy
+    has_many :checked_profiles, through: :checkmarks, source: :profile
+    
+    has_many :project_checkmarks, dependent: :destroy
+    has_many :checked_projects, through: :project_checkmarks, source: :project_launch
   
     # Validations
     validates :email, presence: true, uniqueness: true

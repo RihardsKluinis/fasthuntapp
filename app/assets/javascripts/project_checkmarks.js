@@ -3,8 +3,16 @@ $(document).ready(function() {
     var projectId = $(this).data('project-id');
     var checked = $(this).is(':checked');
     var url = '/project_checkmarks';
-    var method = checked ? 'POST' : 'PATCH';
+    var method = 'POST';
+    var checkmarkId = $(this).data('checkmark-id');
 
+    if (checkmarkId) {
+      url += '/' + checkmarkId;
+      method = 'PATCH';
+    }
+
+    console.log('Project ID:', projectId, "CheckmarkID:", checkmarkId);
+    console.log('URL:', url);
     $.ajax({
       url: url,
       type: method,
@@ -17,17 +25,16 @@ $(document).ready(function() {
       },
       success: function(data) {
         console.log('Project checkmark updated successfully.');
-        updateProfileCheckmarks(projectId, checked);
+        if (method === 'POST') {
+          $('.project-checkmark[data-project-id="' + projectId + '"]').data('checkmark-id', data.id);
+        } else if (method === 'PATCH' && !checked) {
+          // Optional: Remove the data-checkmark-id attribute when unchecking the checkbox
+          $('.project-checkmark[data-project-id="' + projectId + '"]').removeData('checkmark-id');
+        }
       },
       error: function(data) {
         console.log('Error updating project checkmark.');
       }
     });
   });
-
-  function updateProfileCheckmarks(projectId, checked) {
-    $('#projects .profile-checkmark[data-project-id="' + projectId + '"]').each(function() {
-      $(this).prop('checked', checked);
-    });
-  }
 });
