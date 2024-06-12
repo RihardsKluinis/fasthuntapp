@@ -1,4 +1,5 @@
 # lib/bulma_pagination_renderer.rb
+require 'will_paginate/view_helpers/action_view'
 class BulmaPaginationRenderer < WillPaginate::ActionView::LinkRenderer
   def container_attributes
     { class: 'pagination is-centered', role: 'navigation', 'aria-label': 'pagination' }
