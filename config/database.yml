@@ -2,8 +2,6 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: rihards
-  password: rihards
 
 development:
   primary:
@@ -30,12 +28,8 @@ test:
 production:
   primary:
     <<: *default
-    database: fasthunt_website_production
-    username: fasthunt_website
-    password: <%= ENV["FASTHUNT_WEBSITE_DATABASE_PASSWORD"] %>
+    url: <%= ENV['DATABASE_URL'] %>
 
   users:
     <<: *default
-    database: fasthunt_users_production
-    username: fasthunt_users
-    password: <%= ENV["FASTHUNT_USERS_DATABASE_PASSWORD"] %>
+    url: <%= ENV['USERS_DATABASE_URL'] %>

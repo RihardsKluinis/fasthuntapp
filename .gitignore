@@ -38,3 +38,6 @@
 /config/initializers/devise.rb
 /log/development.log.0
 /log/development
+
+log/development.log
+tmp/cache/bootsnap/compile-cache-iseq/44/009c8e238cb920
