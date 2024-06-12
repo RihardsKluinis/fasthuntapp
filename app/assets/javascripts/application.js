@@ -1,12 +1,9 @@
-//= require rails-ujs
-//= require turbolinks
-//= require_tree .
 
-import Rails from "@rails/ujs"
+document.addEventListener('DOMContentLoaded', () => {
+    const dropdown = document.querySelector('.dropdown');
+    const dropdownTrigger = document.querySelector('.dropdown-trigger');
 
-import * as ActiveStorage from "@rails/activestorage"
-import "channels"
-
-Rails.start()
-
-ActiveStorage.start()
+    dropdownTrigger.addEventListener('click', () => {
+        dropdown.classList.toggle('is-active');
+    });
+});

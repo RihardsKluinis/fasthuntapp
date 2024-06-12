@@ -7,3 +7,5 @@
 //= link project_checkmarks.js
 //= link combined_checkmarks.js
 //= link project_checkmarks.js
+//= link dropdownFunctionality.js
+

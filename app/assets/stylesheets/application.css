@@ -139,7 +139,58 @@
     border-radius: 24px; /* Adjusted radius */
   }
 
+
+
+  .dropdown-menu {
+    display: none;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+.dropdown.is-active .dropdown-menu {
+    display: block;
+    opacity: 1;
+}
   
+  .icon-checkbox .social-icon {
+    font-size: 2em;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
   
+  .icon-checkbox .social-icon.is-active {
+    color: #3273dc; /* Change to your preferred active color */
+  }
+  
+  .field.has-addons .icon-checkbox {
+    margin-right: 10px;
+  }
+  
+  .columns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .column {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .filter-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+    opacity: 0;
+}
+
+.filter-container.is-active .filter-content {
+    max-height: 1000px; /* This should be larger than the maximum expected height */
+    opacity: 1;
+}
   
  
