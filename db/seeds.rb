@@ -9,12 +9,14 @@
 #   end
 require 'json'
 
+# Read JSON data from projects.json file
 file = File.read(Rails.root.join('db', 'data', 'projects.json'))
 json_data = JSON.parse(file)
 
-ActiveRecord::Base.connected_to(database: { writing: :primary, reading: :primary }) do
-    # Iterate over each project
-    json_data['projects'].each do |key, project_attributes|
+# Use ActiveRecord transaction to ensure atomicity of database operations
+ActiveRecord::Base.transaction do
+  # Iterate over each project in the JSON data
+  json_data['projects'].each do |key, project_attributes|
     # Access attributes of the project
     project_id_value = project_attributes['project_id']
     website = project_attributes['website']
@@ -26,42 +28,41 @@ ActiveRecord::Base.connected_to(database: { writing: :primary, reading: :primary
     profiles = project_attributes['profiles']
 
     # Create a ProjectLaunch record
-    project_launch = ProjectLaunch.create!(
-                                            name: name,
-                                            date: date,
-                                            description: description,
-                                            image: image,
-                                            website: website,
-                                            project_id: project_id_value # Assign project_id from JSON data directly
-                                            )
+    project_launch = ProjectLaunch.find_or_initialize_by(project_id: project_id_value)
+    project_launch.update!(
+      name: name,
+      date: date,
+      description: description,
+      image: image,
+      website: website
+    )
 
     # Iterate over profiles if they exist
-    if profiles
-        profiles.each do |profile_id, profile_data|
-        # Access profile attributes
-        name = profile_data['name']
-        username = profile_data['username']
-        avatar_url = profile_data['avatarUrl']
-        twitter = profile_data['twitter']
-        linkedin = profile_data['linkedin']
-        github = profile_data['github']
-        websites = profile_data['websites']
-        instagram = profile_data['instagram']
-        url = profile_data['url']
-        
-        # Create a Profile record associated with the ProjectLaunch
-        Profile.create!(
-            name: name,
-            username: username,
-            avatar_url: avatar_url,
-            twitter: twitter,
-            linkedin: linkedin,
-            github: github,
-            websites: websites,
-            instagram: instagram,
-            project_launch: project_launch,
-            url: url
-        )
-        end
+    profiles&.each do |profile_data|
+      # Access profile attributes
+      name = profile_data['name']
+      username = profile_data['username']
+      avatar_url = profile_data['avatarUrl']
+      twitter = profile_data['twitter']
+      linkedin = profile_data['linkedin']
+      github = profile_data['github']
+      websites = profile_data['websites']
+      instagram = profile_data['instagram']
+      url = profile_data['url']
+      
+      # Create or update a Profile record associated with the ProjectLaunch
+      profile = Profile.find_or_initialize_by(username: username)
+      profile.update!(
+        name: name,
+        avatar_url: avatar_url,
+        twitter: twitter,
+        linkedin: linkedin,
+        github: github,
+        websites: websites,
+        instagram: instagram,
+        url: url,
+        project_launch: project_launch
+      )
     end
-    end
+  end
+end
