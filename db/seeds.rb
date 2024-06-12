@@ -9,7 +9,7 @@
 #   end
 require 'json'
 
-# Read JSON data from projects.json file
+
 file = File.read(Rails.root.join('db', 'data', 'projects.json'))
 json_data = JSON.parse(file)
 
