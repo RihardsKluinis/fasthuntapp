@@ -15,23 +15,7 @@
             <%= hidden_field_tag 'social_media_list', '', id: 'social_media_list' %>
             <div class="columns">
               <div class="column">
-                <div class="field">
-                  <label class="label" for="start_date">Start Date</label>
-                  <div class="control">
-                    <%= date_field_tag :start_date, params[:start_date], class: 'input' %>
-                  </div>
-                </div>
-              </div>
-              <div class="column">
-                <div class="field">
-                  <label class="label" for="end_date">End Date</label>
-                  <div class="control">
-                    <%= date_field_tag :end_date, params[:end_date], class: 'input' %>
-                  </div>
-                </div>
-              </div>
-            </div>
-              <div class="column">
+              <label class="label" for="social_media">Options to Connect</label>
                 <div class="field has-addons">
                   <label class="icon-checkbox">
                     <%= check_box_tag 'social_medias[]', 'twitter', @selected_social_medias.include?('twitter'), id: 'social_media_twitter', class: 'is-hidden', data: { active: @selected_social_medias.include?('twitter') } %>
@@ -54,16 +38,36 @@
                     <i class="fab fa-linkedin social-icon"></i>
                   </label>
                 </div>
-              </div>
             </div>
-            <div class="field">
-              <label class="label" for="checkmark_status">Checkmark Status</label>
-              <div class="control">
-                <div class="select">
-                  <%= select_tag :checkmark_status, options_for_select([['Any', ''], ['Verified', 'true'], ['Not Verified', 'false']], params[:checkmark_status]), class: 'input' %>
+              <div class="column">
+                <div class="field">
+                  <label class="label" for="start_date">Start Date</label>
+                  <div class="control">
+                    <%= date_field_tag :start_date, params[:start_date], class: 'input' %>
+                  </div>
                 </div>
               </div>
+              <div class="column">
+                <div class="field">
+                  <label class="label" for="end_date">End Date</label>
+                  <div class="control">
+                    <%= date_field_tag :end_date, params[:end_date], class: 'input' %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="column">
+                <div class="field">
+                <label class="label" for="checkmark_status">Checkmark Status</label>
+                  <div class="control">
+                    <div class="select">
+                      <%= select_tag :checkmark_status, options_for_select([['Any', ''], ['Verified', 'true'], ['Not Verified', 'false']], params[:checkmark_status]), class: 'input' %>
+                    </div>
+                  </div>
+              </div>
             </div>
+            </div>
+
             <div class="field">
               <div class="control">
                 <%= submit_tag 'Filter', class: 'button is-primary' %>

@@ -29,8 +29,7 @@
                               when :website then "fas fa-globe"
                               when :instagram then "fab fa-instagram"
                               end %>
-              <!-- Change checkbox_tag to check_box_tag and remove params[:social_medias] -->
-              <%= check_box_tag 'social_medias[]', platform.to_s, displayed_social_media.include?(platform), id: "social_media_#{platform}" %>
+             
               <!-- Add label for the icon -->
               <label for="social_media_<%= platform %>">
                 <i class="<%= icon_class %>"></i>
