@@ -38,31 +38,31 @@ ActiveRecord::Base.transaction do
     )
 
     # Iterate over profiles if they exist
-    profiles&.each do |profile_data|
-      # Access profile attributes
-      name = profile_data['name']
-      username = profile_data['username']
-      avatar_url = profile_data['avatarUrl']
-      twitter = profile_data['twitter']
-      linkedin = profile_data['linkedin']
-      github = profile_data['github']
-      websites = profile_data['websites']
-      instagram = profile_data['instagram']
-      url = profile_data['url']
-      
-      # Create or update a Profile record associated with the ProjectLaunch
-      profile = Profile.find_or_initialize_by(username: username)
-      profile.update!(
-        name: name,
-        avatar_url: avatar_url,
-        twitter: twitter,
-        linkedin: linkedin,
-        github: github,
-        websites: websites,
-        instagram: instagram,
-        url: url,
-        project_launch: project_launch
-      )
-    end
+    profiles&.each do |profile_id, profile_data|
+        # Access profile attributes
+        name = profile_data['name']
+        username = profile_data['username']
+        avatar_url = profile_data['avatarUrl']
+        twitter = profile_data['twitter']
+        linkedin = profile_data['linkedin']
+        github = profile_data['github']
+        websites = profile_data['websites']
+        instagram = profile_data['instagram']
+        url = profile_data['url']
+        
+        # Create or update a Profile record associated with the ProjectLaunch
+        profile = Profile.find_or_initialize_by(username: username)
+        profile.update!(
+          name: name,
+          avatar_url: avatar_url,
+          twitter: twitter,
+          linkedin: linkedin,
+          github: github,
+          websites: websites,
+          instagram: instagram,
+          url: url,
+          project_launch: project_launch
+        )
+      end
   end
 end
