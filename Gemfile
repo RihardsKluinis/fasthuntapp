@@ -13,7 +13,7 @@ gem 'omniauth-github'
 
 
 
-gem 'dotenv-rails', groups: [:development, :test]
+
 
 
 
