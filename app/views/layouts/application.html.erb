@@ -1,4 +1,3 @@
-<!-- app/views/layouts/application.html.erb -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +9,7 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+  <%= javascript_include_tag 'dropdownFunctionality' %>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
   <%= javascript_include_tag 'projects' %>
 
@@ -17,47 +17,102 @@
   <%= javascript_include_tag 'project_checkmarks' %>
 
   <%= javascript_include_tag 'combined_checkmarks' %>
-  <%= javascript_include_tag 'dropdownFunctionality' %>
-
-
-
   
+
+
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'rails-ujs' %>
+
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
   <header>
-    <nav>
-      <ul>
-        <li><%= link_to 'Home', root_path %></li>
-        <li><%= link_to 'Projects', projects_path %></li>
-
-
-        <% if user_signed_in? %>
-        <%= button_to "Log out", destroy_user_session_path, method: :delete, data: { turbo: false } %>
-
-      <% else %>
-      <%= link_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path, method: :post, data: { disable_with: '<i class="fa fa-spinner fa-spin" />'}%>
-      <%= link_to "Sign in with GitHub", user_github_omniauth_authorize_path, method: :post %>
-      <% end %>
-      <div id="login-status" class="notification is-primary" style="position: fixed; top: 20px; right: 20px;">
-      <% if current_user %>
-        You are logged in as <%= current_user.email %>. <!-- You can customize this message -->
-      <% else %>
-        You are not logged in. <!-- You can customize this message -->
-      <% end %>
-    </div>
-
-        <!-- Add more nav items here -->
-      </ul>
+    <nav class="navbar is-primary">
+      <div class="container">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="/">
+            <strong>YourAppName</strong>
+          </a>
+        </div>
+        <div class="navbar-menu">
+          <div class="navbar-end">
+            <a class="navbar-item" href="/">Home</a>
+            <a class="navbar-item" href="/projects">Projects</a>
+            <% if user_signed_in? %>
+              <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "button is-danger is-light", data: { turbo: false } %>
+            <% else %>
+              <%= link_to "Sign in with GitHub", user_github_omniauth_authorize_path, method: :post, class: "button is-dark is-light" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
     </nav>
   </header>
 
   <div class="container">
-    <%= yield %>
+    <!-- Hero Section -->
+    <section class="hero is-medium is-primary is-bold">
+      <div class="hero-body">
+        <div class="container hero-content">
+          <h1 class="title">
+            Welcome to YourAppName
+          </h1>
+          <h2 class="subtitle">
+            Discover and showcase amazing projects!
+          </h2>
+          <a href="#features" class="button is-link is-large">Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+      <div class="container">
+        <h2 class="title is-3">Key Features</h2>
+        <div class="columns is-multiline">
+          <div class="column is-one-third">
+            <div class="box">
+              <div class="content">
+                <h3 class="title is-4"><i class="fas fa-project-diagram"></i> Manage Projects</h3>
+                <p>Organize and manage your projects with ease. Keep track of your progress and achievements.</p>
+              </div>
+            </div>
+          </div>
+          <div class="column is-one-third">
+            <div class="box">
+              <div class="content">
+                <h3 class="title is-4"><i class="fas fa-users"></i> Collaborate</h3>
+                <p>Work together with your team and share your ideas. Collaboration has never been easier.</p>
+              </div>
+            </div>
+          </div>
+          <div class="column is-one-third">
+            <div class="box">
+              <div class="content">
+                <h3 class="title is-4"><i class="fas fa-chart-line"></i> Track Progress</h3>
+                <p>Monitor the progress of your projects and stay on top of deadlines with our tracking tools.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Project List Section -->
+    <section class="section">
+      <div class="container">
+        <h2 class="title is-3">Projects</h2>
+        <%= yield %>
+      </div>
+    </section>
   </div>
 
-  <footer>
-    <p>© 2024 YourAppName</p>
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>© 2024 YourAppName</p>
+    </div>
   </footer>
+
+ 
 </body>
 </html>

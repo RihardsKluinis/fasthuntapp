@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
   
+  const paginationContainer = document.querySelector('#basic_pagination');
 
   // Attach event delegation for project elements
     document.addEventListener("click", function(event) {
@@ -44,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (event.target.classList.contains('pagination-link')) {
       console.log("Pagination link clicked");
       event.preventDefault();
+      paginationContainer.style.display = 'flex';
       const pageLink = event.target.href;
       const scrollPosition = window.scrollY;
 

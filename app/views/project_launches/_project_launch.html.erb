@@ -1,22 +1,62 @@
-<div id="<%= dom_id project_launch %>">
-  <p>
-    <strong>Name:</strong>
-    <%= project_launch.name %>
-  </p>
 
-  <p>
-    <strong>Description:</strong>
-    <%= project_launch.description %>
-  </p>
+<div class="box project" style="height: 100px;">
+  <article class="media">
+    <div class="media-left">
+      <figure class="image is-60x60">
+        <img src="<%= project.image %>" alt="<%= project.name %>" style="height: 60px; width: 60px;">
+      </figure>
+    </div>
+    <div class="media-content">
+      <div class="content">
+        <h2 class="title is-5">
+          <%= project.name %>
+          <%= render partial: 'project_checkmarks/project_checkmarks', locals: { project: project } %>
+        </h2>
+        <nav class="level is-mobile">
+          <div class="level-left">
+            <% displayed_social_media = [] %>
+            <% project.profiles.each do |profile| %>
+              <% displayed_social_media << :twitter if profile.twitter.present? %>
+              <% displayed_social_media << :github if profile.github.present? %>
+              <% displayed_social_media << :linkedin if profile.linkedin.present? %>
+              <% displayed_social_media << :website if profile.websites.present? %>
+              <% displayed_social_media << :instagram if profile.instagram.present? %>
+            <% end %>
+            <% displayed_social_media.uniq.each do |platform| %>
+              <% icon_class = case platform
+                              when :twitter then "fab fa-twitter"
+                              when :github then "fab fa-github"
+                              when :linkedin then "fab fa-linkedin"
+                              when :website then "fas fa-globe"
+                              when :instagram then "fab fa-instagram"
+                              end %>
+             
+              <!-- Add label for the icon -->
+              <label for="social_media_<%= platform %>">
+                <i class="<%= icon_class %>"></i>
+              </label>
+            <% end %>
+            <% if displayed_social_media.empty? %>
+              <i class="far fa-smile placeholder-icon" style="visibility: hidden;"></i>
+            <% end %>
+          </div>
+        </nav>
+        <p class="is-size-7"><%= project.description %></p>
+        <p class="is-size-7">
+          Product Hunt page: 
+          <a href="<%= 'https://www.producthunt.com/products/' + project.project_id + '/launches' %>">
+            <i class="fab fa-product-hunt fa-lg"></i>
+          </a>
+          Products Website: 
+          <a href="<%= project.website %>">
+            <i class="fas fa-globe fa-lg"></i>
+          </a>
+        </p>
+        <time datetime="<%= project.date %>" class="is-size-7"><%= project.date %></time>
+      </div>
 
-  <p>
-    <strong>Date:</strong>
-    <%= project_launch.date %>
-  </p>
+      <%= render partial: 'profiles/profile', locals: { project: project } %>
 
-  <p>
-    <strong>Image:</strong>
-    <%= project_launch.image %>
-  </p>
-
+    </div>
+  </article>
 </div>

@@ -1,0 +1,7 @@
+<!-- app/views/projects/_projects.html.erb -->
+<div id="projects-list">
+  <%= render partial: "project", collection: @projects, as: :project %>
+</div>
+<nav class="pagination" id="secondStep_pagination" role="navigation" aria-label="pagination">
+  <%= will_paginate @projects, renderer: BulmaPaginationRenderer %>
+</nav>

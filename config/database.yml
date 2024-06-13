@@ -10,26 +10,29 @@ development:
     username: rihards
     password: rihards
 
-  users:
-    <<: *default
-    database: fasthunt_users_development
-    username: rihards
-    password: rihards
+  # Remove or comment out the users database configuration
+  # users:
+  #   <<: *default
+  #   database: fasthunt_users_development
+  #   username: rihards
+  #   password: rihards
 
 test:
   primary:
     <<: *default
     database: fasthunt_website_test
 
-  users:
-    <<: *default
-    database: fasthunt_users_test
+  # Remove or comment out the users database configuration
+  # users:
+  #   <<: *default
+  #   database: fasthunt_users_test
 
 production:
   primary:
     <<: *default
     url: <%= ENV['DATABASE_URL'] %>
 
-  users:
-    <<: *default
-    url: <%= ENV['USERS_DATABASE_URL'] %>
+  # Remove or comment out the users database configuration
+  # users:
+  #   <<: *default
+  #   url: <%= ENV['USERS_DATABASE_URL'] %>

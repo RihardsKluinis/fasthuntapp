@@ -7,6 +7,13 @@ Rails.application.config.assets.version = "1.0"
 # Rails.application.config.assets.paths << Emoji.images_path
 
 # Precompile additional assets.
+Rails.application.config.assets.precompile += %w( projects.js )
+Rails.application.config.assets.precompile += %w( profile_checkmarks.js )
+Rails.application.config.assets.precompile += %w( project_checkmarks.js )
+Rails.application.config.assets.precompile += %w( combined_checkmarks.js )
+Rails.application.config.assets.precompile += %w( dropdownFunctionality.js )
+
+Rails.application.config.assets.precompile += %w( rails-ujs.js )
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )

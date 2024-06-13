@@ -5,16 +5,18 @@ class ProjectsController < ApplicationController
 
   # GET /projects or /projects.json
   def index
-    @projects = ProjectLaunch.paginate(page: params[:page], per_page: 20)
-
+    @projects = ProjectLaunch.all
+  
     filter_by_social_medias if params[:social_media_list].present?
     filter_by_dates if params[:start_date].present? || params[:end_date].present?
     filter_by_checkmark_status if params[:checkmark_status].present?
-    
+  
+    @projects = @projects.paginate(page: params[:page], per_page: 20)
     @selected_social_medias = params[:social_media_list] ? params[:social_media_list].split(',') : []
+  
     respond_to do |format|
       format.html
-      format.js
+      format.js { render partial: 'projects/projects', locals: { projects: @projects } }
     end
   end
 

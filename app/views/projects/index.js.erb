@@ -1,5 +1,6 @@
-document.getElementById('projects').innerHTML = "<%= escape_javascript(render(@projects)) %>";
-document.querySelector('.pagination').innerHTML = "<%= escape_javascript(will_paginate(@projects)) %>";
+document.getElementById('projects').innerHTML = "<%= j render partial: 'projects/projects' %>";
+document.querySelector('.pagination').innerHTML = "<%= j render partial: 'projects/pagination' %>";
+
 
 $('#projects').html("<%= j render partial: 'project', collection: @projects, as: :project %>");
 $('.pagination').html("<%= j will_paginate @projects, renderer: BulmaPaginationRenderer %>");
