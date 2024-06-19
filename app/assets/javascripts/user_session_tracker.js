@@ -53,7 +53,10 @@ $(document).ready(function() {
       };
   
       // Check if the profile has a .linkedin attribute
-      let profileLinkedin = $(this).closest('.profile').data('linkedin');
+      let $mediaContent = $(this).closest('.media').find('.media-content');
+
+      // Check if the profile has a `.linkedin` attribute
+      let profileLinkedin = $mediaContent.data('linkedin');
       if (profileLinkedin) {
         // Assume current User_id, linkedinpassword, and linkedIn username are input fields
         let userId = $('#current_user_id').val();
