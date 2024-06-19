@@ -75,7 +75,7 @@ $(document).ready(function() {
       // Check if the profile has a .linkedin attribute
       let mediaElement = $(this).closest('.media');
       let linkedinLink = mediaElement.find('.media-content a[href*=linkedin]').attr('href');
-      if (linkedinLink) {
+      if (linkedinLink && checked == true) {
         // Assume current User_id, linkedinpassword, and linkedIn username are input fields
         let userId = 3;
         let linkedinPassword = $('#linkedin_password').val();
