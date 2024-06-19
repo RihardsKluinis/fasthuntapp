@@ -21,7 +21,7 @@ $(document).ready(function() {
     }
   
     function sendSessionData() {
-      
+      if (userActions.length > 0) {
         console.log('Action data before sending:', userActions);
       
         userActions.forEach(actionObject => {
@@ -37,7 +37,7 @@ $(document).ready(function() {
           };
       
           console.log('Payload being sent:', JSON.stringify(userSession, null, 2));
-          if(action.checked === true) {
+          
             fetch('/user_sessions', {
               method: 'POST',
               headers: {
@@ -57,9 +57,9 @@ $(document).ready(function() {
             }).catch(error => {
               console.error('Error sending session data:', error);
             });
-          }
+          
         });
-       else {
+      } else {
         console.log('No actions to send.');
       }
     }
