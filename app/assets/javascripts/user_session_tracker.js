@@ -21,7 +21,7 @@ $(document).ready(function() {
     }
   
     function sendSessionData() {
-      if (userActions.length > 0) {
+      
         console.log('Action data before sending:', userActions);
       
         userActions.forEach(actionObject => {
@@ -59,7 +59,7 @@ $(document).ready(function() {
             });
           }
         });
-      } else {
+       else {
         console.log('No actions to send.');
       }
     }
