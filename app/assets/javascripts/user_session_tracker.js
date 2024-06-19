@@ -16,29 +16,35 @@ $(document).ready(function() {
     }
   
     function sendSessionData() {
-      if (userActions.length > 0) {
-        fetch('/user_sessions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
-          },
-          body: JSON.stringify({ actions: userActions }),
-        }).then(response => {
-          if (response.ok) {
-            localStorage.removeItem('userActions');
-            userActions = [];
-            console.log('Session data sent successfully. SEEEEENDING');
-          } else {
-            console.error('Failed to send session data: DIIIIIDNT SEND', response.statusText);
-          }
-        }).catch(error => {
-          console.error('Error sending session data: DIIIIDDDNT SEND', error);
-        });
-      } else {
-        console.log('No actions to send. THIS BITCH EMPTY');
+        if (userActions.length > 0) {
+          fetch('/user_sessions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+            },
+            body: JSON.stringify({ actions: userActions }),
+          }).then(response => {
+            if (response.ok) {
+              localStorage.removeItem('userActions');
+              userActions = [];
+              console.log('Session data sent successfully.');
+            } else {
+              console.error('Failed to send session data:', response.statusText);
+              // Additional error handling based on response status
+              if (response.status === 404) {
+                console.error('Endpoint not found.');
+              } else if (response.status === 500) {
+                console.error('Internal server error.');
+              }
+            }
+          }).catch(error => {
+            console.error('Error sending session data:', error);
+          });
+        } else {
+          console.log('No actions to send.');
+        }
       }
-    }
   
     $('#projects').on('change', '.profile-checkmark', function() {
       var profileId = $(this).data('profile-id');
