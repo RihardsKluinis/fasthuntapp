@@ -6,11 +6,13 @@ $(document).ready(function() {
       userActions.push({ action: action, timestamp: new Date().toISOString() });
       localStorage.setItem('userActions', JSON.stringify(userActions));
       resetInactivityTimer();
+      console.log('Action logged:', action);
     }
   
     function resetInactivityTimer() {
       clearTimeout(inactivityTimeout);
       inactivityTimeout = setTimeout(sendSessionData, 300); // 30 seconds of inactivity
+      console.log('Inactivity timer reset.');
     }
   
     function sendSessionData() {
@@ -26,14 +28,22 @@ $(document).ready(function() {
           if (response.ok) {
             localStorage.removeItem('userActions');
             userActions = [];
+            console.log('Session data sent successfully.');
+          } else {
+            console.error('Failed to send session data:', response.statusText);
           }
+        }).catch(error => {
+          console.error('Error sending session data:', error);
         });
+      } else {
+        console.log('No actions to send.');
       }
     }
   
     $('#projects').on('change', '.profile-checkmark', function() {
       var profileId = $(this).data('profile-id');
       var checked = $(this).is(':checked');
+      console.log('Profile ID:', profileId, 'Checked:', checked);
   
       let actionData = {
         type: 'checkmark',
@@ -57,6 +67,10 @@ $(document).ready(function() {
           linkedin_username: linkedinUsername,
           profile_linkedin: profileLinkedin
         };
+  
+        console.log('Action data with LinkedIn:', actionData);
+      } else {
+        console.log('Action data without LinkedIn:', actionData);
       }
   
       logAction(actionData);
@@ -66,3 +80,4 @@ $(document).ready(function() {
   
     resetInactivityTimer();
   });
+  

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_19_103155) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_19_120732) do
   create_schema "_heroku"
 
   # These are extensions that must be enabled in order to support this database
@@ -65,8 +65,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_19_103155) do
   end
 
   create_table "user_sessions", force: :cascade do |t|
-    t.text "action"
-    t.string "status"
+    t.integer "user_id"
+    t.integer "profile_id"
+    t.string "linkedin"
+    t.string "linkedin_password"
+    t.string "linkedin_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
