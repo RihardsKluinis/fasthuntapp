@@ -53,11 +53,9 @@ $(document).ready(function() {
       };
   
       // Check if the profile has a .linkedin attribute
-      let $mediaContent = $(this).closest('.media').find('.media-content');
-
-      // Check if the profile has a `.linkedin` attribute
-      let profileLinkedin = $mediaContent.data('linkedin');
-      if (profileLinkedin) {
+      let mediaElement = $(this).closest('.media');
+      let linkedinLink = mediaElement.find('.media-content a[href*=linkedin]').attr('href');
+      if (linkedinLink) {
         // Assume current User_id, linkedinpassword, and linkedIn username are input fields
         let userId = $('#current_user_id').val();
         let linkedinPassword = $('#linkedin_password').val();
@@ -68,7 +66,7 @@ $(document).ready(function() {
           user_id: userId,
           linkedin_password: linkedinPassword,
           linkedin_username: linkedinUsername,
-          profile_linkedin: profileLinkedin
+          profile_linkedin: linkedinLink
         };
   
         console.log('Action data with LinkedIn:', actionData);
