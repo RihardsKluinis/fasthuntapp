@@ -17,14 +17,14 @@ $(document).ready(function() {
   
     function sendSessionData() {
         if (userActions.length > 0) {
-        console.log('Action data:', userActions);
+          console.log('Action data:', userActions);
           fetch('/user_sessions', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
             },
-            body: JSON.stringify({ actions: userActions }),
+            body: JSON.stringify({ user_session: { actions: userActions } }),
           }).then(response => {
             if (response.ok) {
               localStorage.removeItem('userActions');
@@ -32,12 +32,7 @@ $(document).ready(function() {
               console.log('Session data sent successfully.');
             } else {
               console.error('Failed to send session data:', response.statusText);
-              // Additional error handling based on response status
-              if (response.status === 404) {
-                console.error('Endpoint not found.');
-              } else if (response.status === 500) {
-                console.error('Internal server error.');
-              }
+              response.json().then(data => console.error('Response data:', data));
             }
           }).catch(error => {
             console.error('Error sending session data:', error);

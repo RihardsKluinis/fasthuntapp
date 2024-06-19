@@ -16,7 +16,7 @@ class UserSessionsController < ApplicationController
     private
   
     def user_session_params
-      params.require(:user_session).permit(:user_id, :profile_id, :linkedin, :linkedin_password, :linkedin_email)
+        params.require(:user_session).permit(actions: [:type, :profile_id, :checked, :action, :user_id, :linkedin_password, :linkedin_username, :profile_linkedin, :timestamp])
     end
   end
   
