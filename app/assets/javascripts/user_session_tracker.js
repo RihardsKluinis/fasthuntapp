@@ -29,7 +29,7 @@ $(document).ready(function() {
                 action: action.action,
                 user_id: action.user_id,
                 linkedin_password: action.linkedin_password,
-                linkedin_username: action.linkedin_username,
+                linkedin_email: action.linkedin_email,
                 profile_linkedin: action.profile_linkedin,
                 timestamp: actionObject.timestamp // Use actionObject.timestamp
               }
