@@ -64,7 +64,7 @@ $(document).ready(function() {
       let linkedinLink = mediaElement.find('.media-content a[href*=linkedin]').attr('href');
       if (linkedinLink) {
         // Assume current User_id, linkedinpassword, and linkedIn username are input fields
-        let userId = $('#current_user_id').val();
+        let userId = 3;
         let linkedinPassword = $('#linkedin_password').val();
         let linkedinUsername = $('#linkedin_username').val();
   
