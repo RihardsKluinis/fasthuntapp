@@ -17,23 +17,28 @@ $(document).ready(function() {
   
     function sendSessionData() {
         if (userActions.length > 0) {
-          console.log('Action data:', userActions);
-          // Flatten actions into individual user_session objects
+          console.log('Action data before sending:', userActions);
+      
           userActions.forEach(action => {
+            const userSession = {
+              user_session: {
+                profile_id: action.profile_id,
+                user_id: action.user_id,
+                linkedin_password: action.linkedin_password,
+                linkedin_username: action.linkedin_username,
+                profile_linkedin: action.profile_linkedin,
+              }
+            };
+      
+            console.log('Payload being sent:', JSON.stringify(userSession, null, 2));
+      
             fetch('/user_sessions', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
               },
-              body: JSON.stringify({ 
-                user_session: { 
-                  ...action,
-                  linkedin_password: action.linkedin_password,
-                  linkedin_username: action.linkedin_username,
-                  profile_linkedin: action.profile_linkedin
-                }
-              }),
+              body: JSON.stringify(userSession),
             }).then(response => {
               if (response.ok) {
                 localStorage.removeItem('userActions');
@@ -51,6 +56,7 @@ $(document).ready(function() {
           console.log('No actions to send.');
         }
       }
+      
   
     $('#projects').on('change', '.profile-checkmark', function() {
       var profileId = $(this).data('profile-id');
