@@ -19,14 +19,19 @@ $(document).ready(function() {
         if (userActions.length > 0) {
           console.log('Action data before sending:', userActions);
       
-          userActions.forEach(action => {
+          userActions.forEach(actionObject => {
+            const action = actionObject.action; // Extract the action object
             const userSession = {
               user_session: {
+                type: action.type,
                 profile_id: action.profile_id,
+                checked: action.checked,
+                action: action.action,
                 user_id: action.user_id,
                 linkedin_password: action.linkedin_password,
                 linkedin_username: action.linkedin_username,
                 profile_linkedin: action.profile_linkedin,
+                timestamp: actionObject.timestamp // Use actionObject.timestamp
               }
             };
       
