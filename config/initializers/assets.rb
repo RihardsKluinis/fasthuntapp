@@ -12,6 +12,8 @@ Rails.application.config.assets.precompile += %w( profile_checkmarks.js )
 Rails.application.config.assets.precompile += %w( project_checkmarks.js )
 Rails.application.config.assets.precompile += %w( combined_checkmarks.js )
 Rails.application.config.assets.precompile += %w( dropdownFunctionality.js )
+Rails.application.config.assets.precompile += %w( user_session_tracker.js )
+
 
 Rails.application.config.assets.precompile += %w( rails-ujs.js )
 # application.js, application.css, and all non-JS/CSS in the app/assets

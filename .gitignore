@@ -8,12 +8,7 @@
 /.bundle
 
 # Ignore all environment files (except templates).
-/.env*
-!/.env*.erb
 
-# Ignore all logfiles and tempfiles.
-/log/*
-/tmp/*
 
 
 # Ignore pidfiles, but keep the directory.
@@ -41,3 +36,19 @@
 
 log/development.log
 tmp/cache/bootsnap/compile-cache-iseq/44/009c8e238cb920
+
+
+# Ignore all temporary files and directories
+/tmp/
+
+# Ignore log files
+/log/
+
+# Ignore cache directories
+/tmp/cache/
+
+# Ignore other common temporary files
+*.log
+*.tmp
+*.swp
+*.bak

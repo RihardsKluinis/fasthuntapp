@@ -8,4 +8,5 @@
 //= link combined_checkmarks.js
 //= link project_checkmarks.js
 //= link dropdownFunctionality.js
+//= link user_session_tracker.js
 

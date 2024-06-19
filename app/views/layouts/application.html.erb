@@ -17,8 +17,8 @@
   <%= javascript_include_tag 'project_checkmarks' %>
 
   <%= javascript_include_tag 'combined_checkmarks' %>
+  <%= javascript_include_tag 'user_session_tracker' %>
   
-
 
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'rails-ujs' %>
@@ -66,37 +66,56 @@
     </section>
 
     <!-- Features Section -->
-    <section class="section" id="features">
-      <div class="container">
-        <h2 class="title is-3">Key Features</h2>
-        <div class="columns is-multiline">
-          <div class="column is-one-third">
-            <div class="box">
-              <div class="content">
-                <h3 class="title is-4"><i class="fas fa-project-diagram"></i> Manage Projects</h3>
-                <p>Organize and manage your projects with ease. Keep track of your progress and achievements.</p>
+<section class="section" id="features">
+  <div class="container">
+    <h2 class="title is-3">Key Features</h2>
+    <div class="columns is-multiline">
+      <div class="column is-one-third">
+        <div class="box">
+          <div class="content">
+            <h3 class="title is-4"><i class="fas fa-project-diagram"></i> Manage Projects</h3>
+            <p>Organize and manage your projects with ease. Keep track of your progress and achievements.</p>
+          </div>
+        </div>
+      </div>
+      <div class="column is-one-third">
+        <div class="box">
+          <div class="content">
+            <h3 class="title is-4"><i class="fas fa-users"></i> Collaborate</h3>
+            <p>Work together with your team and share your ideas. Collaboration has never been easier.</p>
+          </div>
+        </div>
+      </div>
+      <div class="column is-one-third">
+        <div class="box">
+          <div class="content">
+            <h3 class="title is-4"><i class="fas fa-chart-line"></i> Track Progress</h3>
+            <p>Monitor the progress of your projects and stay on top of deadlines with our tracking tools.</p>
+            <div class="field">
+              <label class="label">UserId</label>
+              <div class="control">
+                <input class="input" type="text" id="current_user_id" placeholder="Current User ID">
               </div>
             </div>
-          </div>
-          <div class="column is-one-third">
-            <div class="box">
-              <div class="content">
-                <h3 class="title is-4"><i class="fas fa-users"></i> Collaborate</h3>
-                <p>Work together with your team and share your ideas. Collaboration has never been easier.</p>
+            <div class="field">
+              <label class="label">LinkedIn Username</label>
+              <div class="control">
+                <input class="input" type="text" id="linkedin_username" placeholder="Enter LinkedIn Username">
               </div>
             </div>
-          </div>
-          <div class="column is-one-third">
-            <div class="box">
-              <div class="content">
-                <h3 class="title is-4"><i class="fas fa-chart-line"></i> Track Progress</h3>
-                <p>Monitor the progress of your projects and stay on top of deadlines with our tracking tools.</p>
+            <div class="field">
+              <label class="label">LinkedIn Password</label>
+              <div class="control">
+                <input class="input" type="password" id="linkedin_password" placeholder="Enter LinkedIn Password">
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
+
 
     <!-- Project List Section -->
     <section class="section">
