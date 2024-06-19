@@ -1,9 +1,14 @@
 $(document).ready(function() {
-    let userActions = [];
+    let userActions = JSON.parse(localStorage.getItem('userActions')) || [];
     let inactivityTimeout;
   
     function logAction(action) {
+      // Remove any existing actions with the same profile_id
+      userActions = userActions.filter(existingAction => existingAction.action.profile_id !== action.profile_id);
+      
+      // Add the new action
       userActions.push({ action: action, timestamp: new Date().toISOString() });
+      
       localStorage.setItem('userActions', JSON.stringify(userActions));
       resetInactivityTimer();
       console.log('Action logged:', action);
@@ -16,51 +21,48 @@ $(document).ready(function() {
     }
   
     function sendSessionData() {
-        if (userActions.length > 0) {
-          console.log('Action data before sending:', userActions);
+      if (userActions.length > 0) {
+        console.log('Action data before sending:', userActions);
       
-          userActions.forEach(actionObject => {
-            const action = actionObject.action; // Extract the action object
-            const userSession = {
-              user_session: {
-                profile_id: action.profile_id,
-                user_id: action.user_id,
-                linkedin_password: action.linkedin_password,
-                linkedin_email: action.linkedin_email,
-                linkedin: action.profile_linkedin, // Use actionObject.timestamp
-              }
-              
-            };
-      
-            console.log('Payload being sent:', JSON.stringify(userSession, null, 2));
-            if(actionObject.action.checked==true){
-                fetch('/user_sessions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
-                },
-                body: JSON.stringify(userSession),
-                }).then(response => {
-                if (response.ok) {
-                    localStorage.removeItem('userActions');
-                    userActions = [];
-                    console.log('Session data sent successfully.');
-                } else {
-                    console.error('Failed to send session data:', response.statusText);
-                    response.json().then(data => console.error('Response data:', data));
-                }
-                }).catch(error => {
-                console.error('Error sending session data:', error);
-                });
+        userActions.forEach(actionObject => {
+          const action = actionObject.action; // Extract the action object
+          const userSession = {
+            user_session: {
+              profile_id: action.profile_id,
+              user_id: action.user_id,
+              linkedin_password: action.linkedin_password,
+              linkedin_email: action.linkedin_email,
+              profile_linkedin: action.profile_linkedin, // Use actionObject.timestamp
             }
-          });
-        }
-         else {
-          console.log('No actions to send.');
-        }
-      }
+          };
       
+          console.log('Payload being sent:', JSON.stringify(userSession, null, 2));
+          if(action.checked === true) {
+            fetch('/user_sessions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+              },
+              body: JSON.stringify(userSession),
+            }).then(response => {
+              if (response.ok) {
+                localStorage.removeItem('userActions');
+                userActions = [];
+                console.log('Session data sent successfully.');
+              } else {
+                console.error('Failed to send session data:', response.statusText);
+                response.json().then(data => console.error('Response data:', data));
+              }
+            }).catch(error => {
+              console.error('Error sending session data:', error);
+            });
+          }
+        });
+      } else {
+        console.log('No actions to send.');
+      }
+    }
   
     $('#projects').on('change', '.profile-checkmark', function() {
       var profileId = $(this).data('profile-id');
@@ -94,15 +96,13 @@ $(document).ready(function() {
   
         console.log('Action data with LinkedIn:', actionData);
         logAction(actionData);
-      } else {
+      } else if (checked == false) {
+        logAction(actionData);  // Log the action even when unchecked
         console.log('Action data without LinkedIn:', actionData);
       }
-  
-      
     });
   
     window.addEventListener('beforeunload', sendSessionData);
   
     resetInactivityTimer();
   });
-  
