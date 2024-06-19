@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :checkmarks, only: [:create, :update]
   resources :project_checkmarks, only: [:create, :update]
   resources :profiles, only: [:show, :edit, :update, :destroy]
+  resources :user_sessions, only: [:create]
 
   devise_for :users, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks'
