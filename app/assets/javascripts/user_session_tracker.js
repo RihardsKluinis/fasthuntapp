@@ -90,11 +90,12 @@ $(document).ready(function() {
         };
   
         console.log('Action data with LinkedIn:', actionData);
+        logAction(actionData);
       } else {
         console.log('Action data without LinkedIn:', actionData);
       }
   
-      logAction(actionData);
+      
     });
   
     window.addEventListener('beforeunload', sendSessionData);
