@@ -53,10 +53,11 @@ $(document).ready(function() {
                 }).catch(error => {
                 console.error('Error sending session data:', error);
                 });
-            });
-            } else {
-            console.log('No actions to send.');
             }
+          });
+        }
+         else {
+          console.log('No actions to send.');
         }
       }
       
