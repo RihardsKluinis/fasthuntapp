@@ -23,15 +23,11 @@ $(document).ready(function() {
             const action = actionObject.action; // Extract the action object
             const userSession = {
               user_session: {
-                type: action.type,
                 profile_id: action.profile_id,
-                checked: action.checked,
-                action: action.action,
                 user_id: action.user_id,
                 linkedin_password: action.linkedin_password,
                 linkedin_email: action.linkedin_email,
-                profile_linkedin: action.profile_linkedin,
-                timestamp: actionObject.timestamp // Use actionObject.timestamp
+                profile: action.profile_linkedin, // Use actionObject.timestamp
               }
             };
       
@@ -88,7 +84,7 @@ $(document).ready(function() {
           ...actionData,
           user_id: userId,
           linkedin_password: linkedinPassword,
-          linkedin_username: linkedinUsername,
+          linkedin_email: linkedinUsername,
           profile_linkedin: linkedinLink
         };
   
