@@ -3,6 +3,7 @@ class UserSessionsController < ApplicationController
   
     def create
       session_data = user_session_params
+      Rails.logger.info("Received parameters: #{session_data.inspect}")
       @user_session = UserSession.new(session_data)
   
       if @user_session.save
