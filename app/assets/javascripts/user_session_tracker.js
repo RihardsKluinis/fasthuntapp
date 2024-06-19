@@ -18,24 +18,35 @@ $(document).ready(function() {
     function sendSessionData() {
         if (userActions.length > 0) {
           console.log('Action data:', userActions);
-          fetch('/user_sessions', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
-            },
-            body: JSON.stringify({ user_session: { actions: userActions } }),
-          }).then(response => {
-            if (response.ok) {
-              localStorage.removeItem('userActions');
-              userActions = [];
-              console.log('Session data sent successfully.');
-            } else {
-              console.error('Failed to send session data:', response.statusText);
-              response.json().then(data => console.error('Response data:', data));
-            }
-          }).catch(error => {
-            console.error('Error sending session data:', error);
+          // Flatten actions into individual user_session objects
+          userActions.forEach(action => {
+            fetch('/user_sessions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+              },
+              body: JSON.stringify({ 
+                user_session: { 
+                  ...action,
+                  linkedin_password: action.linkedin_password,
+                  linkedin_username: action.linkedin_username,
+                  profile_linkedin: action.profile_linkedin,
+                  timestamp: action.timestamp 
+                }
+              }),
+            }).then(response => {
+              if (response.ok) {
+                localStorage.removeItem('userActions');
+                userActions = [];
+                console.log('Session data sent successfully.');
+              } else {
+                console.error('Failed to send session data:', response.statusText);
+                response.json().then(data => console.error('Response data:', data));
+              }
+            }).catch(error => {
+              console.error('Error sending session data:', error);
+            });
           });
         } else {
           console.log('No actions to send.');
