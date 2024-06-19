@@ -11,7 +11,7 @@ $(document).ready(function() {
   
     function resetInactivityTimer() {
       clearTimeout(inactivityTimeout);
-      inactivityTimeout = setTimeout(sendSessionData, 300); // 30 seconds of inactivity
+      inactivityTimeout = setTimeout(sendSessionData, 3000); // 30 seconds of inactivity
       console.log('Inactivity timer reset.');
     }
   
@@ -28,15 +28,15 @@ $(document).ready(function() {
           if (response.ok) {
             localStorage.removeItem('userActions');
             userActions = [];
-            console.log('Session data sent successfully.');
+            console.log('Session data sent successfully. SEEEEENDING');
           } else {
-            console.error('Failed to send session data:', response.statusText);
+            console.error('Failed to send session data: DIIIIIDNT SEND', response.statusText);
           }
         }).catch(error => {
-          console.error('Error sending session data:', error);
+          console.error('Error sending session data: DIIIIDDDNT SEND', error);
         });
       } else {
-        console.log('No actions to send.');
+        console.log('No actions to send. THIS BITCH EMPTY');
       }
     }
   
