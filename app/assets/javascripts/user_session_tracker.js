@@ -31,8 +31,7 @@ $(document).ready(function() {
                   ...action,
                   linkedin_password: action.linkedin_password,
                   linkedin_username: action.linkedin_username,
-                  profile_linkedin: action.profile_linkedin,
-                  timestamp: action.timestamp 
+                  profile_linkedin: action.profile_linkedin
                 }
               }),
             }).then(response => {
