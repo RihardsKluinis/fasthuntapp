@@ -5,7 +5,7 @@ class UserSessionsController < ApplicationController
       session_data = user_session_params
       Rails.logger.info("Received parameters: #{session_data.inspect}")
       @user_session = UserSession.new(session_data)
-  
+      @user_session.user_id = current_user.id
       if @user_session.save
         render json: { message: 'User session created successfully' }, status: :created
       else

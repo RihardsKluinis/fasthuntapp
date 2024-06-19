@@ -33,29 +33,30 @@ $(document).ready(function() {
             };
       
             console.log('Payload being sent:', JSON.stringify(userSession, null, 2));
-      
-            fetch('/user_sessions', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
-              },
-              body: JSON.stringify(userSession),
-            }).then(response => {
-              if (response.ok) {
-                localStorage.removeItem('userActions');
-                userActions = [];
-                console.log('Session data sent successfully.');
-              } else {
-                console.error('Failed to send session data:', response.statusText);
-                response.json().then(data => console.error('Response data:', data));
-              }
-            }).catch(error => {
-              console.error('Error sending session data:', error);
+            if(actionObject.action.checked==true){
+                fetch('/user_sessions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                body: JSON.stringify(userSession),
+                }).then(response => {
+                if (response.ok) {
+                    localStorage.removeItem('userActions');
+                    userActions = [];
+                    console.log('Session data sent successfully.');
+                } else {
+                    console.error('Failed to send session data:', response.statusText);
+                    response.json().then(data => console.error('Response data:', data));
+                }
+                }).catch(error => {
+                console.error('Error sending session data:', error);
+                });
             });
-          });
-        } else {
-          console.log('No actions to send.');
+            } else {
+            console.log('No actions to send.');
+            }
         }
       }
       
@@ -86,7 +87,8 @@ $(document).ready(function() {
           user_id: userId,
           linkedin_password: linkedinPassword,
           linkedin_email: linkedinUsername,
-          profile_linkedin: linkedinLink
+          profile_linkedin: linkedinLink,
+          checked: checked
         };
   
         console.log('Action data with LinkedIn:', actionData);
