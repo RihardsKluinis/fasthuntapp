@@ -17,6 +17,7 @@ $(document).ready(function() {
   
     function sendSessionData() {
         if (userActions.length > 0) {
+        console.log('Action data:', userActions);
           fetch('/user_sessions', {
             method: 'POST',
             headers: {
