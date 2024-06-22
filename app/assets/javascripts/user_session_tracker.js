@@ -32,7 +32,7 @@ $(document).ready(function() {
               user_id: action.user_id,
               linkedin_password: action.linkedin_password,
               linkedin_email: action.linkedin_email,
-              profile_linkedin: action.profile_linkedin, // Use actionObject.timestamp
+              linkedin: action.profile_linkedin, // Use actionObject.timestamp
             }
           };
       
