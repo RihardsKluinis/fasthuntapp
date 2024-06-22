@@ -133,6 +133,32 @@
     </div>
   </footer>
 
+  <% if flash[:alert] %>
+    <div class="modal" id="passwordAlertModal" style="display: block;">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Alert</p>
+          <button class="delete" aria-label="close" onclick="document.getElementById('passwordAlertModal').style.display='none'"></button>
+        </header>
+        <section class="modal-card-body">
+          <%= flash[:alert] %>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button" onclick="document.getElementById('passwordAlertModal').style.display='none'">Close</button>
+        </footer>
+      </div>
+    </div>
+  <% end %>
+
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+      if (document.querySelector('.modal')) {
+        document.querySelector('.modal').style.display = 'block';
+      }
+    });
+  </script>
+
  
 </body>
 </html>

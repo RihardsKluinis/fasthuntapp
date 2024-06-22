@@ -3,6 +3,11 @@ class SessionsController < ApplicationController
     def create
       user = User.from_omniauth(request.env['omniauth.auth'])
       session[:user_id] = user.id
+
+      if user.user_sessions.exists?(is_this_password_correct: false)
+        flash[:alert] = "There is an incorrect password attempt in your history."
+      end
+
       redirect_to root_path, notice: 'Signed in!'
     end
   
