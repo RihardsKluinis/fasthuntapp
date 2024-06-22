@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
         flash.now[:alert] = "There is an incorrect password attempt in your history."
       end
     end
+    
     def update_user_sessions
       user_sessions = current_user.user_sessions.where(is_this_password_correct: false)
       user_sessions.update_all(username: params[:username], password: params[:password], is_this_password_correct: true)
