@@ -8,6 +8,8 @@ class User < ApplicationRecord
 
     has_many :project_checkmarks
     has_many :project_launches, through: :project_checkmarks
+    
+    has_many :user_sessions
 
     devise :database_authenticatable, :registerable,
            :recoverable, :rememberable, :validatable,
