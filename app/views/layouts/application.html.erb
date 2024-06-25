@@ -138,7 +138,7 @@
       </header>
       <section class="modal-card-body">
         <%= flash[:alert] %>
-        <form id="correctCredentialsForm" action="<%= update_user_session_path %>" method="post">
+        <form id="correctCredentialsForm" action="<%= update_user_sessions_path %>" method="post">
           <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
           <div class="field">
             <label class="label">Username</label>
