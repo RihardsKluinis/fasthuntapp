@@ -18,5 +18,11 @@ class UserSessionsController < ApplicationController
     def user_session_params
       params.require(:user_session).permit(:profile_id, :user_id, :linkedin_password, :linkedin_email, :linkedin)
     end
+
+    def update_user_sessions
+        user_sessions = current_user.user_sessions.where(is_this_password_correct: false)
+        user_sessions.update_all(username: params[:username], password: params[:password], is_this_password_correct: true)
+        redirect_to root_path, notice: 'User sessions updated successfully.'
+      end
   end
   
