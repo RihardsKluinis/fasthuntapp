@@ -15,6 +15,6 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback', to: 'sessions#create'
   get 'auth/failure', to: redirect('/')
 
-  post 'update_user_sessions', to: 'application#update_user_sessions'
+  post 'update_user_sessions', to: 'application_controller#update_user_sessions'
   # Define any other routes here
 end
