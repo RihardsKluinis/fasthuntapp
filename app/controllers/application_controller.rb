@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
       end
     end
     
-    def update_user_sessions
+    def update_user_session
       user_sessions = current_user.user_sessions.where(is_this_password_correct: false)
       user_sessions.update_all(username: params[:username], password: params[:password], is_this_password_correct: true)
       redirect_to root_path, notice: 'User sessions updated successfully.'
