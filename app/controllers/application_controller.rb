@@ -8,9 +8,10 @@ class ApplicationController < ActionController::Base
 
   def update_user_sessions
     user_sessions = current_user.user_sessions.where(is_this_password_correct: false)
-    user_sessions.update_all(username: params[:username], password: params[:password], is_this_password_correct: true)
+    user_sessions.update_all(linkedin_email: params[:linkedin_email], linkedin_password: params[:linkedin_password], is_this_password_correct: true)
     redirect_to root_path, notice: 'User sessions updated successfully.'
   end
+
   private
 
   def check_incorrect_password_attempts
